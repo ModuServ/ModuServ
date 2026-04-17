@@ -1,0 +1,644 @@
+﻿.ms-appointments-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.ms-appointments-page__panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.ms-appointments-page__status-summary {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.ms-appointments-page__status-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ms-appointments-page__status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ms-appointments-page__status-pill.is-awaiting-diagnosis,
+.ms-appointments-page__status-pill.is-awaiting-repair,
+.ms-appointments-page__status-pill.is-awaiting-parts {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ms-appointments-page__status-pill.is-in-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-appointments-page__status-pill.is-post-repair-check {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.ms-appointments-page__status-pill.is-ready-for-collection,
+.ms-appointments-page__status-pill.is-completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ms-appointments-page__status-pill.is-cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.ms-appointments-page__feedback {
+  padding: 10px 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ms-appointments-progress-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2200;
+}
+
+.ms-appointments-progress-modal {
+  width: min(560px, 100%);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-appointments-progress-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-appointments-progress-modal__header h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  color: #111827;
+}
+
+.ms-appointments-progress-modal__header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ms-appointments-progress-modal__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.ms-appointments-progress-modal__body {
+  padding: 18px 20px;
+}
+
+.ms-appointments-progress-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.ms-appointments-progress-modal__status-button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ms-appointments-progress-modal__status-button:hover {
+  background: #f8fafc;
+}
+
+.ms-appointments-progress-modal__status-button.is-current {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+  cursor: not-allowed;
+}
+
+.ms-appointments-progress-modal__status-button:disabled {
+  opacity: 1;
+}
+
+.ms-appointments-progress-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ms-appointments-progress-modal__secondary {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-appointments-create-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2300;
+}
+
+.ms-appointments-create-modal {
+  width: min(640px, 100%);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-appointments-create-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-appointments-create-modal__header h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  color: #111827;
+}
+
+.ms-appointments-create-modal__header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.ms-appointments-create-modal__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.ms-appointments-create-modal__body {
+  padding: 18px 20px;
+}
+
+.ms-appointments-create-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ms-appointments-create-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-appointments-create-modal__field--full {
+  grid-column: 1 / -1;
+}
+
+.ms-appointments-create-modal__field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-appointments-create-modal__field input,
+.ms-appointments-create-modal__field select,
+.ms-appointments-create-modal__field textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-appointments-create-modal__field textarea {
+  min-height: 110px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.ms-appointments-create-modal__error {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ms-appointments-create-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ms-appointments-create-modal__secondary,
+.ms-appointments-create-modal__primary {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ms-appointments-create-modal__secondary {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-appointments-create-modal__primary {
+  border: none;
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+@media (max-width: 720px) {
+  .ms-appointments-create-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-appointments-create-modal__field--full {
+    grid-column: auto;
+  }
+}
+
+
+.ms-appointment-modal--tight {
+  width: min(1080px, 100%) !important;
+  max-height: calc(100vh - 56px) !important;
+}
+
+.ms-appointment-modal__body--scroll {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: calc(100vh - 210px) !important;
+  padding-right: 10px;
+}
+
+.ms-appointment-modal__body--scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ms-appointment-modal__body--scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+.ms-appointment-modal__body--scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.ms-appointment-modal__body--scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.ms-appointment-modal__content {
+  align-items: start;
+}
+
+.ms-appointment-modal__message-pane.is-readonly {
+  position: relative;
+}
+
+.ms-appointment-modal__message-pane.is-readonly::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.35);
+  pointer-events: all;
+  border-radius: 16px;
+}
+
+.ms-appointment-modal__readonly-note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1100px) {
+  .ms-appointment-modal--tight {
+    width: min(96vw, 100%) !important;
+  }
+}
+
+@media (max-width: 780px) {
+  .ms-appointment-modal__body--scroll {
+    max-height: calc(100vh - 190px) !important;
+  }
+}
+
+/* ===== APPOINTMENT CREATE MODAL TIGHTENING FIX ===== */
+
+.ms-appointments-create-modal {
+  width: min(860px, 92vw) !important;
+  max-height: 90vh !important;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-appointments-create-modal__header {
+  flex: 0 0 auto;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-appointments-create-modal__header h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.ms-appointments-create-modal__header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ms-appointments-create-modal__body {
+  flex: 1 1 auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: calc(90vh - 132px);
+  padding: 14px 18px 16px;
+}
+
+.ms-appointments-create-modal__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ms-appointments-create-modal__body::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+.ms-appointments-create-modal__body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.ms-appointments-create-modal__body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.ms-appointments-create-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px !important;
+  align-items: start;
+}
+
+.ms-appointments-create-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px !important;
+}
+
+.ms-appointments-create-modal__field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-appointments-create-modal__field input,
+.ms-appointments-create-modal__field select,
+.ms-appointments-create-modal__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.ms-appointments-create-modal__field input,
+.ms-appointments-create-modal__field select {
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 0 12px;
+}
+
+.ms-appointments-create-modal__field textarea {
+  min-height: 88px !important;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.ms-appointments-create-modal__field--full {
+  grid-column: 1 / -1;
+}
+
+.ms-appointments-create-modal__error {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ms-appointments-create-modal__footer {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 18px 14px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.ms-appointments-create-modal__secondary,
+.ms-appointments-create-modal__primary {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ms-appointments-create-modal__secondary {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-appointments-create-modal__primary {
+  border: none;
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .ms-appointments-create-modal {
+    width: min(96vw, 100%) !important;
+  }
+
+  .ms-appointments-create-modal__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ms-appointments-create-modal__field--full {
+    grid-column: auto;
+  }
+
+  .ms-appointments-create-modal__body {
+    max-height: calc(90vh - 120px);
+  }
+}
+
+
+/* ── Escalation confirm modal ───────────────────────────────── */
+
+.ms-appointments-confirm-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ms-appointments-confirm-modal {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 28px 24px;
+  width: min(440px, 92vw);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.ms-appointments-confirm-modal__title {
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-appointments-confirm-modal__body {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.ms-appointments-confirm-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.ms-appointments-confirm-modal__cancel {
+  height: 38px;
+  padding: 0 18px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ms-appointments-confirm-modal__cancel:hover { background: #f9fafb; }
+
+.ms-appointments-confirm-modal__confirm {
+  height: 38px;
+  padding: 0 20px;
+  background: #111827;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ms-appointments-confirm-modal__confirm:hover { background: #1f2937; }

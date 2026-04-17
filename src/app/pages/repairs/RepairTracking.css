@@ -1,0 +1,939 @@
+.ms-repair {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.ms-repair__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-repair__header h1 {
+  margin: 0 0 8px;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-repair__header p {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 0.98rem;
+}
+
+.ms-repair__role {
+  display: inline-block;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.ms-repair__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-repair__stat-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ms-repair__stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.ms-repair__stat-card span {
+  display: block;
+  font-size: 0.84rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.ms-repair__stat-card strong {
+  font-size: 1.65rem;
+  color: #111827;
+  line-height: 1;
+}
+
+.ms-repair__panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.ms-repair__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ms-repair__search {
+  flex: 1 1 320px;
+  min-width: 260px;
+  height: 46px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+}
+
+.ms-repair__search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.ms-repair__filter {
+  height: 46px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+}
+
+.ms-repair__filter select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.ms-repair__table-wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+}
+
+.ms-repair__table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+}
+
+.ms-repair__table th,
+.ms-repair__table td {
+  padding: 15px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 0.94rem;
+  color: #111827;
+  vertical-align: middle;
+}
+
+.ms-repair__table th {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #fafbfd;
+}
+
+.ms-repair__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ms-repair__status--awaiting-diagnosis,
+.ms-repair__status--awaiting-repair,
+.ms-repair__status--awaiting-parts {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ms-repair__status--in-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-repair__status--post-repair-check {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.ms-repair__status--ready-for-collection {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ms-repair__status--completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ms-repair__status--cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ms-repair__actions {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.ms-repair__action-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.ms-repair__action-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ms-repair__empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 26px 16px;
+}
+
+.ms-repair-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2200;
+}
+
+.ms-repair-modal {
+  width: min(1320px, 100%);
+  max-height: calc(100vh - 48px);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-repair-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  flex: 0 0 auto;
+}
+
+.ms-repair-modal__header h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-repair-modal__header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ms-repair-modal__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.ms-repair-modal__body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+}
+
+.ms-repair-modal__body--split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) 380px;
+  gap: 18px;
+  align-items: start;
+}
+
+.ms-repair-modal__main {
+  min-width: 0;
+}
+
+.ms-repair-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-repair-modal__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  min-width: 0;
+}
+
+.ms-repair-modal__card--full {
+  grid-column: 1 / -1;
+}
+
+.ms-repair-modal__card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: #111827;
+}
+
+.ms-repair-modal__card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.ms-repair-modal__info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.ms-repair-modal__info-row:last-child {
+  border-bottom: none;
+}
+
+.ms-repair-modal__info-row span {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.ms-repair-modal__info-row strong {
+  font-size: 14px;
+  color: #111827;
+}
+
+.ms-repair-modal__condition {
+  margin: 0;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.ms-repair-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.ms-repair-modal__field:last-child {
+  margin-bottom: 0;
+}
+
+.ms-repair-modal__field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-repair-modal__field select,
+.ms-repair-modal__field textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+}
+
+.ms-repair-modal__field select {
+  min-height: 40px;
+  padding: 0 12px;
+}
+
+.ms-repair-modal__field textarea {
+  min-height: 120px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.ms-repair-modal__field select:disabled,
+.ms-repair-modal__field textarea:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.ms-repair-modal__message {
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.ms-message-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.ms-message-pane__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.ms-message-pane__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.ms-message-pane__head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.ms-message-pane__textarea,
+.ms-message-pane__select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.ms-message-pane__textarea {
+  min-height: 120px;
+  padding: 12px;
+  resize: vertical;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.ms-message-pane__textarea--small {
+  min-height: 90px;
+}
+
+.ms-message-pane__select {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.ms-message-pane__button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 10px;
+  background: #1a73e8;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-message-pane__button--secondary {
+  background: #0f172a;
+  margin-bottom: 12px;
+}
+
+.ms-message-pane__log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-top: 12px;
+}
+
+.ms-message-pane__log-list--activity {
+  max-height: 240px;
+}
+
+.ms-message-pane__log-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ms-repair-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid #e5e7eb;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  background: #ffffff;
+}
+
+.ms-repair-modal__secondary,
+.ms-repair-modal__primary {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ms-repair-modal__secondary {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-repair-modal__primary {
+  border: none;
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+.ms-repair-modal__secondary:disabled,
+.ms-repair-modal__primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .ms-repair__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ms-repair-modal__body--split {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .ms-repair-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-repair-modal__card--full {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .ms-repair__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-repair__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ms-repair__search {
+    min-width: 100%;
+  }
+}
+
+.ms-repair-page__message {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ms-repair-stage-summary {
+  margin-bottom: 18px;
+}
+
+.ms-repair-stage-summary__items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ms-repair-stage-summary__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ms-repair-stage-summary__pill.is-awaiting-diagnosis,
+.ms-repair-stage-summary__pill.is-awaiting-repair,
+.ms-repair-stage-summary__pill.is-awaiting-parts {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ms-repair-stage-summary__pill.is-in-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-repair-stage-summary__pill.is-post-repair {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.ms-repair-stage-summary__pill.is-ready,
+.ms-repair-stage-summary__pill.is-completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ms-repair-stage-summary__pill.is-cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ms-repair-page__progress-launcher {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.ms-repair-page__progress-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.ms-repair-page__progress-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #111827;
+  font-size: 15px;
+}
+
+.ms-repair-page__progress-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.ms-repair-page__quick-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.ms-repair-page__quick-progress-button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-repair-page__quick-progress-button:hover {
+  background: #f8fafc;
+}
+
+.ms-repair-page__quick-progress-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ms-repair-progress-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2300;
+}
+
+.ms-repair-progress-modal {
+  width: min(520px, 100%);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-repair-progress-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-repair-progress-modal__header h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  color: #111827;
+}
+
+.ms-repair-progress-modal__header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ms-repair-progress-modal__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.ms-repair-progress-modal__body {
+  padding: 18px 20px;
+}
+
+.ms-repair-progress-modal__actions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.ms-repair-progress-modal__status-button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ms-repair-progress-modal__status-button:hover {
+  background: #f8fafc;
+}
+
+.ms-repair-progress-modal__empty {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ms-repair-progress-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ms-repair-progress-modal__secondary {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-repair-progress-modal__status-button.is-current {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+  cursor: not-allowed;
+}
+
+.ms-repair-progress-modal__status-button:disabled {
+  opacity: 1;
+}
+
+/* ===== WORKFLOW PROGRESS MODAL POLISH ===== */
+
+.ms-repair-progress-modal {
+  width: min(620px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-repair-progress-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-repair-progress-modal__header h3 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-repair-progress-modal__header p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6b7280;
+  word-break: break-word;
+}
+
+.ms-repair-progress-modal__close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.ms-repair-progress-modal__body {
+  padding: 18px 22px;
+  overflow-y: auto;
+}
+
+.ms-repair-progress-modal__actions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.ms-repair-progress-modal__status-button {
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ms-repair-progress-modal__status-button:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ms-repair-progress-modal__status-button.is-current {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+  cursor: not-allowed;
+}
+
+.ms-repair-progress-modal__status-button:disabled {
+  opacity: 1;
+}
+
+.ms-repair-progress-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 22px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ms-repair-progress-modal__secondary {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+}

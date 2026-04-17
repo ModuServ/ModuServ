@@ -1,0 +1,141 @@
+.repair-page {
+  padding: 16px 20px;
+}
+
+/* HEADER */
+.repair-header {
+  margin-bottom: 10px;
+}
+
+.repair-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.repair-header p {
+  font-size: 13px;
+  color: #777;
+}
+
+/* STATS ROW */
+.repair-stats {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 14px 0;
+}
+
+.repair-stat-card {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8f9fb;
+  display: flex;
+  flex-direction: column;
+}
+
+.repair-stat-card span {
+  font-size: 11px;
+  color: #777;
+}
+
+.repair-stat-card strong {
+  font-size: 18px;
+}
+
+/* TOOLBAR */
+.repair-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.repair-toolbar input {
+  padding: 6px 10px;
+  font-size: 13px;
+  width: 260px;
+}
+
+.repair-toolbar select {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* TABLE */
+.repair-table {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.repair-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.repair-table th {
+  font-size: 12px;
+  text-align: left;
+  padding: 10px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.repair-table td {
+  padding: 10px;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* STATUS BADGES */
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.status-progress {
+  background: #e6f0ff;
+  color: #2a6df4;
+}
+
+.status-parts {
+  background: #fff3cd;
+  color: #b38b00;
+}
+
+.status-check {
+  background: #ede7ff;
+  color: #6f42c1;
+}
+
+.status-ready {
+  background: #e6f7ec;
+  color: #1e8e3e;
+}
+
+/* ACTIONS */
+.repair-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.repair-actions button {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.repair-actions button:hover {
+  background: #f5f5f5;
+}
+
+/* COMPACT ROW HEIGHT */
+.repair-table tr {
+  height: 42px;
+}

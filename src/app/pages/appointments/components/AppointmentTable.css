@@ -1,0 +1,184 @@
+﻿.ms-appointments-table__wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+}
+
+.ms-appointments-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+}
+
+.ms-appointments-table th,
+.ms-appointments-table td {
+  padding: 15px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 0.94rem;
+  color: #111827;
+  vertical-align: middle;
+}
+
+.ms-appointments-table th {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #fafbfd;
+}
+
+.ms-appointments-table__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ms-appointments-table__status--awaiting-diagnosis,
+.ms-appointments-table__status--awaiting-repair,
+.ms-appointments-table__status--awaiting-parts {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ms-appointments-table__status--in-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-appointments-table__status--post-repair-check {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.ms-appointments-table__status--ready-for-collection,
+.ms-appointments-table__status--completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ms-appointments-table__status--cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ms-appointments-table__actions {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ms-appointments-table__action-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ms-appointments-table__action-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ms-appointments-table__empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 26px 16px;
+}
+
+.ms-appointments-table__status-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ms-appointments-table__lock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ms-appointments-table__icon-button {
+  width: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ms-appointments-table__icon-button--lock {
+  color: #b45309;
+  border-color: #fcd34d;
+}
+
+.ms-appointments-table__icon-button--unlock {
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.ms-appointments-table__icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ms-appointments-table tr.is-locked {
+  background: #faf8ff;
+}
+
+.ms-appointments-table__icon-button--escalate {
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+.ms-appointments-table__icon-button--escalate:hover:not(:disabled) {
+  background: #f0f9ff;
+}
+
+.ms-appointments-table__icon-button--delete {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.ms-appointments-table__icon-button--delete:hover {
+  background: #fee2e2;
+}
+
+.ms-appointments-table__escalated-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #bbf7d0;
+  white-space: nowrap;
+}

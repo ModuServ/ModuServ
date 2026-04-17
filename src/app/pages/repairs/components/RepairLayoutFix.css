@@ -1,0 +1,53 @@
+﻿.ms-repair-page {
+  padding: 24px 28px;
+}
+
+.ms-repair-page__panel {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #eef2f7;
+}
+
+.ms-repair-stats {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ms-repair-toolbar {
+  margin-bottom: 16px;
+}
+
+.ms-repair-toolbar__search {
+  max-width: 380px;
+}
+
+.ms-repair-toolbar__controls {
+  gap: 14px;
+}
+
+.ms-repair-toolbar__date-group {
+  gap: 14px;
+}
+
+.ms-repair-table__wrap {
+  margin-top: 10px;
+  padding-bottom: 6px;
+}
+
+.ms-repair-table__empty {
+  padding: 30px 0;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .ms-repair-stats {
+    flex-direction: column;
+  }
+
+  .ms-repair-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

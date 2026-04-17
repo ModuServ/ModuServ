@@ -1,0 +1,112 @@
+﻿.ms-intake-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 20px;
+  min-width: 0;
+}
+
+.ms-intake-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.ms-intake-card__header h2 {
+  margin: 0 0 6px;
+  color: #111827;
+}
+
+.ms-intake-card__header p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.55;
+}
+
+.ms-intake-card__icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.ms-intake-card__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-intake-card__grid--triple {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.ms-intake-card__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.ms-intake-card__field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-intake-card__field input,
+.ms-intake-card__field select,
+.ms-intake-card__field textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.95rem;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+.ms-intake-card__field input,
+.ms-intake-card__field select {
+  min-height: 48px;
+}
+
+.ms-intake-card__field textarea {
+  min-height: 140px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  resize: vertical;
+}
+
+.ms-intake-card__field input:disabled,
+.ms-intake-card__field select:disabled,
+.ms-intake-card__field textarea:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .ms-intake-card__grid--triple {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .ms-intake-card {
+    padding: 16px;
+  }
+
+  .ms-intake-card__grid,
+  .ms-intake-card__grid--triple {
+    grid-template-columns: 1fr;
+  }
+}

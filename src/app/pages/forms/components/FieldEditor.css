@@ -1,0 +1,193 @@
+.ms-field-editor {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.15s;
+}
+
+.ms-field-editor:hover { border-color: #d1d5db; }
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.ms-field-editor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ms-field-editor__type-pill {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef2ff;
+  border-radius: 20px;
+  padding: 3px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ms-field-editor__controls {
+  display: flex;
+  gap: 4px;
+}
+
+.ms-field-editor__ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.ms-field-editor__ctrl-btn:hover:not(:disabled) { background: #f3f4f6; color: #374151; }
+.ms-field-editor__ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.ms-field-editor__ctrl-btn--delete:hover { background: #fef2f2 !important; color: #dc2626 !important; border-color: #fca5a5 !important; }
+
+/* ── Row ─────────────────────────────────────────────────────────────────── */
+.ms-field-editor__row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ms-field-editor__row label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ms-field-editor__row input,
+.ms-field-editor__row select {
+  padding: 8px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.ms-field-editor__row input:focus,
+.ms-field-editor__row select:focus { border-color: #6366f1; }
+
+/* Toggle row */
+.ms-field-editor__row--toggle {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Toggle switch ───────────────────────────────────────────────────────── */
+.ms-field-editor__toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  border: none;
+  background: #d1d5db;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.ms-field-editor__toggle.is-on { background: #6366f1; }
+
+.ms-field-editor__toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.ms-field-editor__toggle.is-on .ms-field-editor__toggle-knob {
+  transform: translateX(18px);
+}
+
+/* ── Options ─────────────────────────────────────────────────────────────── */
+.ms-field-editor__options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-field-editor__options > label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ms-field-editor__option-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ms-field-editor__option-row input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.ms-field-editor__option-row input:focus { border-color: #6366f1; }
+
+.ms-field-editor__option-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #9ca3af;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+.ms-field-editor__option-remove:hover { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+
+.ms-field-editor__add-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: none;
+  border: 1.5px dashed #d1d5db;
+  border-radius: 7px;
+  font-size: 12.5px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  width: fit-content;
+}
+.ms-field-editor__add-option:hover { border-color: #6366f1; color: #6366f1; }
+
+/* ── Button settings ─────────────────────────────────────────────────────── */
+.ms-field-editor__button-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

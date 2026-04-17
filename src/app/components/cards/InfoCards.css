@@ -1,0 +1,88 @@
+﻿.ms-info-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.ms-info-card__header {
+  margin-bottom: 14px;
+  flex: 0 0 auto;
+}
+
+.ms-info-card__header h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: #111827;
+}
+
+.ms-info-card__header p {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ms-info-card__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: start;
+  flex: 1 1 auto;
+}
+
+.ms-info-card__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ms-info-card__field--full {
+  grid-column: 1 / -1;
+}
+
+.ms-info-card__field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.ms-info-card__field input,
+.ms-info-card__field select,
+.ms-info-card__field textarea {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.ms-info-card__field textarea {
+  min-height: 88px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  resize: vertical;
+}
+
+.ms-info-card__field input:disabled,
+.ms-info-card__field select:disabled,
+.ms-info-card__field textarea:disabled {
+  background: #f8fafc;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+@media (max-width: 820px) {
+  .ms-info-card__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,313 @@
+﻿.ms-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.ms-calendar__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-calendar__header h1 {
+  margin: 0 0 8px;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-calendar__header p {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 0.98rem;
+}
+
+.ms-calendar__role {
+  display: inline-block;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.ms-calendar__primary {
+  min-height: 46px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ms-calendar__primary:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.ms-calendar__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-calendar__summary-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ms-calendar__summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.ms-calendar__summary-card span {
+  display: block;
+  font-size: 0.84rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.ms-calendar__summary-card strong {
+  font-size: 1.65rem;
+  color: #111827;
+  line-height: 1;
+}
+
+.ms-calendar__panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.ms-calendar__empty-state {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 28px;
+}
+
+.ms-calendar__empty-state h1 {
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.ms-calendar__empty-state p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.ms-calendar-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2200;
+}
+
+.ms-calendar-modal {
+  width: min(860px, 100%);
+  max-height: calc(100vh - 48px);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-calendar-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ms-calendar-modal__header h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-calendar-modal__header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ms-calendar-modal__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ms-calendar-modal__body {
+  padding: 20px;
+}
+
+.ms-calendar-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-calendar-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ms-calendar-modal__field--full {
+  grid-column: 1 / -1;
+}
+
+.ms-calendar-modal__field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-calendar-modal__field input,
+.ms-calendar-modal__field select,
+.ms-calendar-modal__field textarea {
+  min-height: 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.ms-calendar-modal__field textarea {
+  min-height: 120px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  resize: vertical;
+}
+
+.ms-calendar-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-calendar-modal__secondary,
+.ms-calendar-modal__primary {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-calendar-modal__secondary {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-calendar-modal__primary {
+  border: none;
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .ms-calendar__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .ms-calendar__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ms-calendar__primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ms-calendar-modal__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-calendar-modal__field--full {
+    grid-column: auto;
+  }
+}
+
+/* === INNER CALENDAR SCROLL PATCH === */
+.ms-calendar {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-calendar__panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* toolbar/date jump stays fixed, only view area scrolls */
+.ms-calendar__panel > .ms-calendar-view-wrap,
+.ms-calendar__panel > .ms-calendar-month {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* if page wrapper is a flex child, this prevents body/window scrolling takeover */
+.ms-calendar__summary {
+  flex-shrink: 0;
+}
+
+.ms-calendar__header {
+  flex-shrink: 0;
+}
+/* === END INNER CALENDAR SCROLL PATCH === */
+

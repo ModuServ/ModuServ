@@ -1,0 +1,424 @@
+.ms-forms-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.ms-forms-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ms-forms-page__header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.ms-forms-page__header p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.ms-forms-page__create-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.ms-forms-page__create-btn:hover { background: #1f2937; }
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+.ms-forms-page__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 64px 24px;
+  color: #9ca3af;
+  background: #fafafa;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.ms-forms-page__empty p {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ── Card grid ──────────────────────────────────────────────────────────── */
+.ms-forms-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ms-forms-page__grid--archived {
+  opacity: 0.7;
+  margin-top: 12px;
+}
+
+/* ── Archived section ────────────────────────────────────────────────────── */
+.ms-forms-page__archived-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ms-forms-page__archived-section > summary {
+  padding: 14px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  user-select: none;
+  background: #f9fafb;
+  list-style: none;
+}
+
+.ms-forms-page__archived-section > summary::-webkit-details-marker { display: none; }
+.ms-forms-page__archived-section[open] > summary { border-bottom: 1px solid #e5e7eb; }
+.ms-forms-page__archived-section .ms-forms-page__grid { padding: 16px; }
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+.ms-forms-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.ms-forms-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  border-color: #d1d5db;
+}
+
+.ms-forms-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.ms-forms-card__icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6366f1;
+}
+
+.ms-forms-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms-forms-card__status {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.ms-forms-card__status.is-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ms-forms-card__status.is-draft {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.ms-forms-card__status.is-archived {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.ms-forms-card__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.ms-forms-card__desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ms-forms-card__stats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ms-forms-card__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.ms-forms-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.ms-forms-card__fill-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-forms-card__fill-btn:hover { background: #1f2937; }
+
+.ms-forms-card__edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-forms-card__edit-btn:hover { background: #e5e7eb; }
+
+/* ── Kebab menu ──────────────────────────────────────────────────────────── */
+.ms-forms-card__menu-wrap {
+  position: relative;
+}
+
+.ms-forms-card__menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.ms-forms-card__menu-btn:hover { background: #f3f4f6; color: #374151; }
+
+.ms-forms-card__menu {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  z-index: 200;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  min-width: 140px;
+  overflow: hidden;
+}
+
+.ms-forms-card__menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.ms-forms-card__menu button:hover { background: #f9fafb; }
+.ms-forms-card__menu button.is-danger { color: #dc2626; }
+.ms-forms-card__menu button.is-danger:hover { background: #fef2f2; }
+
+/* ── Click-away overlay ─────────────────────────────────────────────────── */
+.ms-forms-page__click-away {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+/* ── Modals ──────────────────────────────────────────────────────────────── */
+.ms-forms-page__modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+
+.ms-forms-page__modal {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px;
+  width: min(440px, 92vw);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ms-forms-page__modal h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.ms-forms-page__modal-body {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ms-forms-page__modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ms-forms-page__modal-field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ms-forms-page__modal-field input,
+.ms-forms-page__modal-field textarea {
+  padding: 9px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #111827;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.ms-forms-page__modal-field input:focus,
+.ms-forms-page__modal-field textarea:focus { border-color: #6366f1; }
+
+.ms-forms-page__modal-error {
+  font-size: 12.5px;
+  color: #dc2626;
+}
+
+.ms-forms-page__modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.ms-forms-page__modal-confirm {
+  padding: 9px 18px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-forms-page__modal-confirm:hover { background: #1f2937; }
+
+.ms-forms-page__modal-danger {
+  padding: 9px 18px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-forms-page__modal-danger:hover { background: #b91c1c; }
+
+.ms-forms-page__modal-cancel {
+  padding: 9px 18px;
+  background: #fff;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-forms-page__modal-cancel:hover { background: #f9fafb; }
+
+.ms-forms-page__modal-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+}
+.ms-forms-page__modal-select:focus { border-color: #6366f1; }

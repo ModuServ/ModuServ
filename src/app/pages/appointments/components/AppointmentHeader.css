@@ -1,0 +1,59 @@
+﻿.ms-appointments-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-appointments-header h1 {
+  margin: 0 0 8px;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-appointments-header p {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 0.98rem;
+}
+
+.ms-appointments-header__role {
+  display: inline-block;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.ms-appointments-header__primary {
+  min-height: 46px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ms-appointments-header__primary:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .ms-appointments-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ms-appointments-header__primary {
+    width: 100%;
+    justify-content: center;
+  }
+}

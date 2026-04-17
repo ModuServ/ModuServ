@@ -1,0 +1,34 @@
+﻿.ms-repair-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-repair-header h1 {
+  margin: 0 0 8px;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-repair-header p {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 0.98rem;
+}
+
+.ms-repair-header__role {
+  display: inline-block;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .ms-repair-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

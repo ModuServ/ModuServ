@@ -1,0 +1,157 @@
+﻿.ms-calendar-view-wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+}
+
+.ms-calendar-grid {
+  display: grid;
+  grid-template-columns: 110px repeat(7, minmax(180px, 1fr));
+  min-width: 1300px;
+}
+
+.ms-calendar-grid--daily {
+  grid-template-columns: 110px minmax(300px, 1fr);
+  min-width: 700px;
+}
+
+.ms-calendar-grid__corner,
+.ms-calendar-grid__day-header,
+.ms-calendar-grid__time-label,
+.ms-calendar-grid__cell {
+  border-right: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.ms-calendar-grid__corner {
+  background: #fafbfd;
+  min-height: 52px;
+}
+
+.ms-calendar-grid__day-header {
+  min-height: 52px;
+  background: #fafbfd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.ms-calendar-grid__time-label {
+  min-height: 110px;
+  background: #ffffff;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.ms-calendar-grid__cell {
+  min-height: 110px;
+  background: #ffffff;
+  padding: 10px;
+  position: relative;
+}
+
+.ms-calendar-grid__appointment {
+  width: 100%;
+  min-height: 88px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ms-calendar-grid__appointment strong {
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.ms-calendar-grid__appointment span {
+  font-size: 0.78rem;
+  color: #374151;
+}
+
+.ms-calendar-grid__appointment small {
+  font-size: 0.75rem;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.ms-calendar-grid__blocked {
+  width: 100%;
+  min-height: 88px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-calendar-grid__blocked strong {
+  font-size: 0.86rem;
+  color: #991b1b;
+}
+
+.ms-calendar-grid__blocked small {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.ms-calendar-grid__slot-actions,
+.ms-calendar-grid__inline-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ms-calendar-grid__slot-actions button,
+.ms-calendar-grid__inline-actions button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.ms-calendar-grid__inline-actions {
+  margin-top: 8px;
+}
+
+/* === DAILY VIEW INNER SCROLL PATCH === */
+.ms-calendar-view-wrap {
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+/* keeps grid large while wrapper handles scroll */
+.ms-calendar-grid--daily {
+  min-height: max-content;
+}
+/* === END DAILY VIEW INNER SCROLL PATCH === */
+

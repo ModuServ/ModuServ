@@ -1,0 +1,338 @@
+.ms-intake-mgmt {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.ms-intake-mgmt__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.ms-intake-mgmt__header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.ms-intake-mgmt__header p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.ms-intake-mgmt__reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.ms-intake-mgmt__reset-btn:hover { background: #fef2f2; }
+
+/* ── Card / collapsible sections ────────────────────────────────────────── */
+.ms-intake-mgmt__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ms-intake-mgmt__section-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.ms-intake-mgmt__section-toggle:hover { background: #f9fafb; }
+
+.ms-intake-mgmt__count {
+  font-weight: 400;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.ms-intake-mgmt__section-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Hint text ──────────────────────────────────────────────────────────── */
+.ms-intake-mgmt__hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 8px 0 0;
+}
+
+/* ── Tag chips ──────────────────────────────────────────────────────────── */
+.ms-intake-mgmt__tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.ms-intake-mgmt__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.ms-intake-mgmt__tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: #d1d5db;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.1s, color 0.1s;
+}
+.ms-intake-mgmt__tag-remove:hover { background: #fca5a5; color: #dc2626; }
+
+/* ── Add row ────────────────────────────────────────────────────────────── */
+.ms-intake-mgmt__add-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ms-intake-mgmt__add-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.ms-intake-mgmt__add-row input:focus { border-color: #6366f1; }
+
+.ms-intake-mgmt__add-row button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.ms-intake-mgmt__add-row button:hover { background: #1f2937; }
+
+/* ── Model matrix selectors ─────────────────────────────────────────────── */
+.ms-intake-mgmt__matrix-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ms-intake-mgmt__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ms-intake-mgmt__field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ms-intake-mgmt__field select {
+  padding: 8px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.ms-intake-mgmt__field select:focus { border-color: #6366f1; }
+.ms-intake-mgmt__field select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ms-intake-mgmt__model-header {
+  padding: 8px 0 4px;
+}
+
+.ms-intake-mgmt__model-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ── Model list ─────────────────────────────────────────────────────────── */
+.ms-intake-mgmt__model-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.ms-intake-mgmt__model-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 13.5px;
+  color: #374151;
+}
+.ms-intake-mgmt__model-item:last-child { border-bottom: none; }
+.ms-intake-mgmt__model-item:hover { background: #f9fafb; }
+
+.ms-intake-mgmt__model-remove {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.1s, background 0.1s;
+}
+.ms-intake-mgmt__model-remove:hover { color: #dc2626; background: #fee2e2; }
+
+/* ── Empty states ───────────────────────────────────────────────────────── */
+.ms-intake-mgmt__empty {
+  font-size: 13px;
+  color: #9ca3af;
+  font-style: italic;
+  padding: 4px 0;
+}
+
+/* ── Access denied ──────────────────────────────────────────────────────── */
+.ms-intake-mgmt__denied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 200px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* ── Reset confirm modal ────────────────────────────────────────────────── */
+.ms-intake-mgmt__modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+
+.ms-intake-mgmt__modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  width: min(420px, 92vw);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+}
+
+.ms-intake-mgmt__modal h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px;
+}
+
+.ms-intake-mgmt__modal p {
+  font-size: 13.5px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.ms-intake-mgmt__modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.ms-intake-mgmt__modal-confirm {
+  padding: 9px 18px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-intake-mgmt__modal-confirm:hover { background: #b91c1c; }
+
+.ms-intake-mgmt__modal-cancel {
+  padding: 9px 18px;
+  background: #fff;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-intake-mgmt__modal-cancel:hover { background: #f9fafb; }

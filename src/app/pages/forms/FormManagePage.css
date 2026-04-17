@@ -1,0 +1,327 @@
+.ms-form-manage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: #f9fafb;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.ms-form-manage__topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.ms-form-manage__back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+.ms-form-manage__back:hover { background: #f3f4f6; color: #374151; }
+
+.ms-form-manage__topbar-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ms-form-manage__title-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.ms-form-manage__title-input:focus { border-color: #6366f1; }
+
+.ms-form-manage__status-select {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: 1.5px solid;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  background: #fff;
+}
+
+.ms-form-manage__status--draft { border-color: #d1d5db; color: #6b7280; }
+.ms-form-manage__status--active { border-color: #bbf7d0; color: #166534; background: #f0fdf4; }
+.ms-form-manage__status--archived { border-color: #fde68a; color: #92400e; background: #fffbeb; }
+
+.ms-form-manage__location-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.ms-form-manage__location-icon {
+  color: #6366f1;
+  flex-shrink: 0;
+}
+
+.ms-form-manage__location-select {
+  border: none;
+  outline: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ms-form-manage__topbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ms-form-manage__preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ms-form-manage__preview-btn:hover { background: #f3f4f6; }
+
+.ms-form-manage__save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-width: 80px;
+  justify-content: center;
+}
+.ms-form-manage__save-btn:hover { background: #1f2937; }
+.ms-form-manage__save-btn.is-saved { background: #16a34a; }
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.ms-form-manage__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Palette (left) ──────────────────────────────────────────────────────── */
+.ms-form-manage__palette {
+  width: 200px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  padding: 20px 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-form-manage__palette-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+}
+
+.ms-form-manage__palette-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ms-form-manage__palette-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.ms-form-manage__palette-item:hover { background: #eef2ff; border-color: #a5b4fc; color: #4338ca; }
+
+.ms-form-manage__palette-icon {
+  display: flex;
+  align-items: center;
+  color: #6366f1;
+}
+
+.ms-form-manage__desc-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #374151;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.ms-form-manage__desc-input:focus { border-color: #6366f1; }
+
+/* ── Canvas (right) ──────────────────────────────────────────────────────── */
+.ms-form-manage__canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.ms-form-manage__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  min-height: 300px;
+  color: #9ca3af;
+  text-align: center;
+  border: 2px dashed #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.ms-form-manage__empty p { font-size: 15px; font-weight: 600; margin: 0; }
+.ms-form-manage__empty span { font-size: 13px; }
+
+.ms-form-manage__field-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ── Not found ───────────────────────────────────────────────────────────── */
+.ms-form-manage__not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 300px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.ms-form-manage__not-found button {
+  padding: 8px 16px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* ── Preview modal ───────────────────────────────────────────────────────── */
+.ms-form-manage__preview-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+
+.ms-form-manage__preview-modal {
+  background: #fff;
+  border-radius: 18px;
+  width: min(580px, 94vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.ms-form-manage__preview-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ms-form-manage__preview-header h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.ms-form-manage__preview-header p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.ms-form-manage__preview-close {
+  font-size: 22px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: color 0.1s;
+  flex-shrink: 0;
+}
+.ms-form-manage__preview-close:hover { color: #374151; }
+
+.ms-form-manage__preview-body {
+  padding: 24px;
+  overflow-y: auto;
+}

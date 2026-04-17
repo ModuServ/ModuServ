@@ -1,0 +1,316 @@
+﻿.ms-appointment-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.ms-appointment-modal {
+  width: min(1440px, calc(100vw - 48px));
+  height: min(90vh, 940px);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.26);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.ms-appointment-modal__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.ms-appointment-modal__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.ms-appointment-modal__header h2 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.ms-appointment-modal__header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ms-appointment-modal__close {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ms-appointment-modal__lock-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 20px;
+  padding: 12px 14px;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  background: #f5f3ff;
+  color: #5b21b6;
+}
+
+.ms-appointment-modal__lock-banner strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ms-appointment-modal__lock-banner span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ms-appointment-modal__body {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f8fafc;
+  padding: 20px 24px;
+}
+
+.ms-appointment-modal__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) 360px;
+  gap: 18px;
+  align-items: start;
+  min-height: 0;
+}
+
+.ms-appointment-modal__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ms-appointment-modal__top-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.ms-appointment-modal__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.ms-appointment-modal__side {
+  min-width: 0;
+}
+
+.ms-appointment-modal__side .ms-message-pane,
+.ms-appointment-modal__side .ms-appointment-message-pane {
+  max-height: 620px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ms-appointment-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.ms-appointment-modal__footer-right {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.ms-appointment-modal__secondary,
+.ms-appointment-modal__primary {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ms-appointment-modal__secondary {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ms-appointment-modal__primary {
+  border: none;
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.ms-appointment-modal__primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ms-appointment-modal__danger {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #fca5a5;
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.ms-appointment-modal__danger:hover {
+  background: #fee2e2;
+}
+
+@media (max-width: 1180px) {
+  .ms-appointment-modal {
+    width: min(1100px, calc(100vw - 32px));
+    height: min(92vh, 960px);
+  }
+
+  .ms-appointment-modal__content {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-appointment-modal__top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-appointment-modal__side .ms-message-pane,
+  .ms-appointment-modal__side .ms-appointment-message-pane {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 780px) {
+  .ms-appointment-modal__backdrop {
+    padding: 12px;
+  }
+
+  .ms-appointment-modal {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 24px);
+    border-radius: 16px;
+  }
+
+  .ms-appointment-modal__body {
+    padding: 16px;
+  }
+
+  .ms-appointment-modal__footer {
+    padding: 14px 16px 16px;
+    flex-wrap: wrap;
+  }
+}
+
+.ms-appointment-modal__top-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.ms-appointment-modal__top-grid > * {
+  height: 100%;
+  min-height: 100%;
+}
+
+@media (max-width: 1180px) {
+  .ms-appointment-modal__top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-appointment-modal__top-grid > * {
+    min-height: auto;
+  }
+}
+
+.ms-appointment-modal__schedule-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.ms-appointment-modal__schedule-header {
+  margin-bottom: 12px;
+}
+
+.ms-appointment-modal__schedule-header h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #111827;
+}
+
+.ms-appointment-modal__schedule-header p {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ms-appointment-modal__schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ms-appointment-modal__schedule-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-appointment-modal__schedule-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-appointment-modal__schedule-field input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.ms-appointment-modal__schedule-field input:disabled {
+  background: #f8fafc;
+  color: #64748b;
+  cursor: not-allowed;
+}

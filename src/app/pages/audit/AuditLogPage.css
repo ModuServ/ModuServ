@@ -1,0 +1,187 @@
+﻿.ms-page-shell {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.ms-page-shell__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.ms-page-shell__title {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #111827;
+}
+
+.ms-page-shell__subtitle {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+.ms-audit__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.ms-audit__header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ms-audit__btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.ms-audit__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ms-audit__btn--secondary {
+  background: #fff;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.ms-audit__btn--secondary:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.ms-audit__btn--danger {
+  background: #fff;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.ms-audit__btn--danger:hover:not(:disabled) {
+  background: #fff1f2;
+}
+
+.ms-audit__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+}
+
+.ms-audit__filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 150px;
+}
+
+.ms-audit__filter-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.ms-audit__filter-field input,
+.ms-audit__filter-field select {
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #fff;
+  color: #111827;
+}
+
+.ms-audit__clear-filters {
+  align-self: flex-end;
+}
+
+.ms-audit__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ms-audit__table th {
+  text-align: left;
+  padding: 8px 12px;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ms-audit__table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f9fafb;
+  color: #111827;
+  vertical-align: top;
+}
+
+.ms-audit__table tr:last-child td {
+  border-bottom: none;
+}
+
+.ms-audit__action-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f3f4f6;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.ms-audit__action-badge--job {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.ms-audit__action-badge--appointment {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.ms-audit__action-badge--customer {
+  background: #faf5ff;
+  color: #7c3aed;
+}
+
+.ms-audit__job-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ms-audit__timestamp {
+  color: #9ca3af;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.ms-audit__empty {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: center;
+  padding: 32px 0;
+}

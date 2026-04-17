@@ -1,0 +1,427 @@
+/* ── Shell ──────────────────────────────────────────────────── */
+
+.ms-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 860px;
+}
+
+.ms-settings__header {
+  margin-bottom: 4px;
+}
+
+.ms-settings__title {
+  margin: 0 0 6px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-settings__subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+
+.ms-settings__card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+}
+
+.ms-settings__card-title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-settings__card-sub {
+  margin: 0 0 28px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ── Section divider inside a card ──────────────────────────── */
+
+.ms-settings__section-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 24px 0;
+}
+
+/* ── Avatar row ──────────────────────────────────────────────── */
+
+.ms-settings__avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 14px;
+  border: 1px solid #f3f4f6;
+}
+
+.ms-settings__avatar-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex: 0 0 auto;
+}
+
+.ms-settings__avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 999px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #e5e7eb;
+}
+
+.ms-settings__avatar-initials {
+  width: 80px;
+  height: 80px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1 0%, #8faee8 100%);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e5e7eb;
+  user-select: none;
+}
+
+.ms-settings__avatar-edit {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+  transition: background 0.15s;
+}
+
+.ms-settings__avatar-edit:hover { background: #374151; }
+
+.ms-settings__avatar-info {
+  flex: 1;
+}
+
+.ms-settings__avatar-name {
+  margin: 0 0 2px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-settings__avatar-role {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ms-settings__avatar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ms-settings__link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3b82f6;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ms-settings__link-btn:hover { text-decoration: underline; }
+
+.ms-settings__link-btn--danger { color: #ef4444; }
+
+/* ── Two-column form grid ─────────────────────────────────────── */
+
+.ms-settings__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.ms-settings__form-grid .ms-settings__field--full {
+  grid-column: 1 / -1;
+}
+
+/* ── Form fields ─────────────────────────────────────────────── */
+
+.ms-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+/* outside a grid, fields still stack */
+.ms-settings__card > .ms-settings__field {
+  margin-bottom: 16px;
+}
+
+.ms-settings__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-settings__input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ms-settings__input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.ms-settings__input-wrap {
+  position: relative;
+}
+
+.ms-settings__input-wrap .ms-settings__input {
+  padding-right: 44px;
+}
+
+.ms-settings__eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.ms-settings__eye:hover { color: #374151; }
+
+/* ── Password section label ──────────────────────────────────── */
+
+.ms-settings__field-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.ms-settings__hint {
+  margin: 0;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.ms-settings__hint--spaced {
+  margin-bottom: 16px;
+}
+
+/* ── Status messages ─────────────────────────────────────────── */
+
+.ms-settings__status {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.ms-settings__status--success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.ms-settings__status--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* ── Form footer ─────────────────────────────────────────────── */
+
+.ms-settings__form-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  align-items: center;
+}
+
+.ms-settings__save-btn {
+  height: 40px;
+  padding: 0 24px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ms-settings__save-btn:hover { background: #1f2937; }
+
+/* ── Toggle rows ─────────────────────────────────────────────── */
+
+.ms-settings__toggle-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+}
+
+.ms-settings__toggle-row:last-child { border-bottom: none; }
+
+.ms-settings__toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ms-settings__toggle-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* keep legacy span selector working too */
+.ms-settings__toggle-row > label > span,
+.ms-settings__toggle-row span:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.ms-settings__toggle-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  accent-color: #6366f1;
+  cursor: pointer;
+}
+
+/* ── Reset card ──────────────────────────────────────────────── */
+
+.ms-settings__reset-zone {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ms-settings__reset-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.ms-settings__reset-text p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.ms-settings__reset-button {
+  flex-shrink: 0;
+  height: 38px;
+  padding: 0 18px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.ms-settings__reset-button:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.ms-settings__reset-button--neutral {
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.ms-settings__reset-button--neutral:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.ms-settings__reset-button--confirm {
+  color: #b45309;
+  border-color: #fbbf24;
+  background: #fffbeb;
+}
+
+.ms-settings__conn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.ms-settings__conn--checking { color: #6b7280; }
+.ms-settings__conn--ok       { color: #16a34a; }
+.ms-settings__conn--error    { color: #dc2626; }
+
+@keyframes ms-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ms-settings__spin {
+  animation: ms-spin 0.8s linear infinite;
+}

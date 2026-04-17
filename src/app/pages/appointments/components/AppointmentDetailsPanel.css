@@ -1,0 +1,115 @@
+﻿.ms-appointment-details-panel {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.ms-appointment-details-panel__scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.ms-appointment-details-panel__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ms-appointment-details-panel__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.ms-appointment-details-panel__card--full {
+  grid-column: 1 / -1;
+}
+
+.ms-appointment-details-panel__card h3 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  color: #111827;
+}
+
+.ms-appointment-details-panel__kv {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.ms-appointment-details-panel__kv:last-child {
+  border-bottom: none;
+}
+
+.ms-appointment-details-panel__kv span {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+.ms-appointment-details-panel__kv strong {
+  font-size: 14px;
+  color: #111827;
+}
+
+.ms-appointment-details-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.ms-appointment-details-panel__field:last-child {
+  margin-bottom: 0;
+}
+
+.ms-appointment-details-panel__field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.ms-appointment-details-panel__field select,
+.ms-appointment-details-panel__field textarea,
+.ms-appointment-details-panel__readonly-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.ms-appointment-details-panel__field select {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.ms-appointment-details-panel__field textarea,
+.ms-appointment-details-panel__readonly-textarea {
+  min-height: 140px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.ms-appointment-details-panel__readonly-textarea {
+  background: #f8fafc;
+  color: #374151;
+}
+
+@media (max-width: 900px) {
+  .ms-appointment-details-panel__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-appointment-details-panel__card--full {
+    grid-column: auto;
+  }
+}

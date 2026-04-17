@@ -1,0 +1,203 @@
+﻿.ms-repair-message-pane {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.ms-repair-message-pane__scroll {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ms-repair-message-pane__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.ms-repair-message-pane__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.ms-repair-message-pane__head--between {
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ms-repair-message-pane__head-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms-repair-message-pane__head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.ms-repair-message-pane__textarea,
+.ms-repair-message-pane__select,
+.ms-repair-message-pane__filter-select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+}
+
+.ms-repair-message-pane__textarea {
+  min-height: 120px;
+  padding: 12px;
+  resize: vertical;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.ms-repair-message-pane__textarea--small {
+  min-height: 90px;
+}
+
+.ms-repair-message-pane__select,
+.ms-repair-message-pane__filter-select {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.ms-repair-message-pane__filter-select {
+  width: auto;
+  min-width: 150px;
+}
+
+.ms-repair-message-pane__button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 10px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-repair-message-pane__button--secondary {
+  background: #0f172a;
+  margin-bottom: 12px;
+}
+
+.ms-repair-message-pane__log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 190px;
+  overflow-y: auto;
+  margin-top: 12px;
+}
+
+.ms-repair-message-pane__log-list--activity {
+  max-height: 320px;
+}
+
+/* ===== ACTIVITY TIMELINE ===== */
+
+.ms-repair-message-pane__log-item {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border-left: 4px solid #cbd5f5;
+  font-size: 13px;
+}
+
+.ms-repair-message-pane__activity-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.ms-repair-message-pane__activity-tag {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.ms-repair-message-pane__activity-tag--email {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-repair-message-pane__activity-tag--sms {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ms-repair-message-pane__activity-tag--status {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.ms-repair-message-pane__activity-tag--note {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.ms-repair-message-pane__activity-tag--post-repair {
+  background: #ffe4e6;
+  color: #be123c;
+}
+
+.ms-repair-message-pane__activity-tag--call {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.ms-repair-message-pane__activity-tag--system {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.ms-repair-message-pane__activity-message {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.ms-repair-message-pane__activity-meta {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.ms-repair-message-pane__activity-time {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.ms-repair-message-pane__empty-activity {
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #6b7280;
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .ms-repair-message-pane__filter-select {
+    width: 100%;
+  }
+}

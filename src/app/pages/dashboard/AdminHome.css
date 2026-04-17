@@ -1,0 +1,332 @@
+.ms-dashboard {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+
+.ms-dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ms-dashboard__title {
+  margin: 0 0 6px;
+  font-size: 42px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-dashboard__subtitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+/* ── Stat cards ─────────────────────────────────────────── */
+
+.ms-dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.ms-dashboard__stat-card {
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+.ms-dashboard__stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.ms-dashboard__stat-icon--blue   { background: #eff6ff; color: #3b82f6; }
+.ms-dashboard__stat-icon--amber  { background: #fffbeb; color: #f59e0b; }
+.ms-dashboard__stat-icon--green  { background: #f0fdf4; color: #22c55e; }
+.ms-dashboard__stat-icon--purple { background: #faf5ff; color: #a855f7; }
+.ms-dashboard__stat-icon--red    { background: #fef2f2; color: #ef4444; }
+.ms-dashboard__stat-icon--grey   { background: #f9fafb; color: #9ca3af; }
+
+.ms-dashboard__stat-label {
+  font-size: 13px;
+  line-height: 1.3;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.ms-dashboard__stat-value {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ── Panel base ─────────────────────────────────────────── */
+
+.ms-dashboard__panel {
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+  padding: 22px;
+  box-sizing: border-box;
+}
+
+.ms-dashboard__panel-header {
+  margin-bottom: 20px;
+}
+
+.ms-dashboard__panel-header h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-dashboard__panel-header p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+/* ── Main panels grid ───────────────────────────────────── */
+
+.ms-dashboard__panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  width: 100%;
+  align-items: start;
+}
+
+.ms-dashboard__right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* ── Repair Pipeline ────────────────────────────────────── */
+
+.ms-dashboard__pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ms-dashboard__pipeline-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ms-dashboard__pipeline-group-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #9ca3af;
+}
+
+.ms-dashboard__pipeline-row {
+  display: grid;
+  grid-template-columns: 10px 1fr 40px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ms-dashboard__pipeline-row:last-child {
+  border-bottom: none;
+}
+
+.ms-dashboard__pipeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ms-dashboard__pipeline-label {
+  font-size: 0.875rem;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ms-dashboard__pipeline-count {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  text-align: right;
+}
+
+.ms-dashboard__pipeline-bar {
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.ms-dashboard__pipeline-bar--empty {
+  background: transparent;
+}
+
+.ms-dashboard__pipeline-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  min-width: 3px;
+}
+
+/* ── At a Glance ────────────────────────────────────────── */
+
+.ms-dashboard__glance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ms-dashboard__glance-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ms-dashboard__glance-row:last-child {
+  border-bottom: none;
+}
+
+.ms-dashboard__glance-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.ms-dashboard__glance-label {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.ms-dashboard__glance-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ── System Status ──────────────────────────────────────── */
+
+.ms-dashboard__status-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ms-dashboard__status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ms-dashboard__status-row:last-child {
+  border-bottom: none;
+}
+
+.ms-dashboard__status-row span:first-child {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.ms-dashboard__status-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ms-dashboard__status-pill--green { background: #f0fdf4; color: #166534; }
+.ms-dashboard__status-pill--amber { background: #fffbeb; color: #92400e; }
+.ms-dashboard__status-pill--red   { background: #fef2f2; color: #991b1b; }
+.ms-dashboard__status-pill--blue  { background: #eff6ff; color: #1d4ed8; }
+.ms-dashboard__status-pill--grey  { background: #f9fafb; color: #6b7280; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 1500px) {
+  .ms-dashboard__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .ms-dashboard__panels {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-dashboard__right-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ms-dashboard__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ms-dashboard__title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 700px) {
+  .ms-dashboard__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-dashboard__right-col {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-dashboard__title {
+    font-size: 30px;
+  }
+}

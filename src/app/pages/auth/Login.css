@@ -1,0 +1,267 @@
+﻿.ms-login {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(circle at top left, rgba(26, 115, 232, 0.08), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, #f3f6fb 100%);
+}
+
+.ms-login__panel {
+  width: min(1080px, 100%);
+  min-height: 640px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10);
+}
+
+.ms-login__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px;
+  background:
+    radial-gradient(circle at top left, rgba(26, 115, 232, 0.12), transparent 30%),
+    linear-gradient(180deg, #eef5ff 0%, #f8fbff 100%);
+  border-right: 1px solid #e5e7eb;
+}
+
+.ms-login__logo {
+  width: min(420px, 100%);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.ms-login__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px;
+}
+
+.ms-login__header {
+  margin-bottom: 28px;
+}
+
+.ms-login__header h1 {
+  margin: 0 0 8px;
+  font-size: 42px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ms-login__header p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.ms-login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ms-login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ms-login__field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ms-login__field input {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.ms-login__field input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.10);
+}
+
+.ms-login__error {
+  min-height: 20px;
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+.ms-login__submit {
+  min-height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: #1a73e8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ms-login__submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.ms-login__helper {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fafbfd;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+@media (max-width: 920px) {
+  .ms-login__panel {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .ms-login__brand {
+    padding: 36px 28px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .ms-login__logo {
+  width: min(420px, 100%);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+  .ms-login__content {
+    padding: 36px 28px;
+  }
+
+  .ms-login__header h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .ms-login {
+    padding: 18px;
+  }
+
+  .ms-login__content {
+    padding: 28px 20px;
+  }
+
+  .ms-login__brand {
+    padding: 28px 20px;
+  }
+}
+
+.ms-login__password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ms-login__password-wrap input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.ms-login__password-toggle {
+  position: absolute;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.ms-login__password-toggle:hover {
+  color: #111827;
+}
+
+.ms-login__password-toggle:focus {
+  outline: none;
+}
+
+.ms-login__brand-copy {
+  width: 100%;
+  max-width: 360px;
+}
+
+.ms-login__brand-copy h1 {
+  margin: 0 0 10px;
+  font-size: 48px;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #111827;
+}
+
+.ms-login__brand-copy p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+.ms-login__password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ms-login__password-wrap input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.ms-login__password-toggle {
+  position: absolute;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.ms-login__password-toggle:hover {
+  color: #111827;
+}
+
+.ms-login__password-toggle:focus {
+  outline: none;
+}
+
+

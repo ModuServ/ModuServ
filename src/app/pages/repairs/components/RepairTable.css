@@ -1,0 +1,178 @@
+.ms-repair-table__wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.ms-repair-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+}
+
+.ms-repair-table th,
+.ms-repair-table td {
+  padding: 15px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 0.94rem;
+  color: #111827;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.ms-repair-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #fafbfd;
+}
+
+.ms-repair-table__status-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ms-repair-table__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ms-repair-table__status--awaiting-diagnosis,
+.ms-repair-table__status--awaiting-repair,
+.ms-repair-table__status--awaiting-parts,
+.ms-repair-table__status--awaiting-customer-reply {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ms-repair-table__status--in-progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.ms-repair-table__status--post-repair-check {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.ms-repair-table__status--ready-for-collection,
+.ms-repair-table__status--ready-for-collection-unsuccessful,
+.ms-repair-table__status--completed,
+.ms-repair-table__status--closed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ms-repair-table__status--cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ms-repair-table__lock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #6d28d9;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ms-repair-table__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.ms-repair-table__action-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-repair-table__icon-button {
+  width: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ms-repair-table__icon-button--lock {
+  color: #b45309;
+  border-color: #fcd34d;
+}
+
+.ms-repair-table__icon-button--unlock {
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.ms-repair-table__icon-button--delete {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.ms-repair-table__icon-button--delete:hover {
+  background: #fee2e2;
+}
+
+.ms-repair-table__action-button:hover:not(:disabled),
+.ms-repair-table__icon-button:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.ms-repair-table__action-button:disabled,
+.ms-repair-table__icon-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ms-repair-table__empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 26px 16px;
+}
+
+.ms-repair-table tr.is-locked {
+  background: #faf8ff;
+}
