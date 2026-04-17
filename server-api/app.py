@@ -14,7 +14,8 @@ from dotenv import load_dotenv
 load_dotenv()  # reads server-api/.env automatically
 
 app = Flask(__name__)
-_allowed_origins = os.environ.get("ALLOWED_ORIGINS", "*")
+_raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
+_allowed_origins = [o.strip() for o in _raw_origins.split(",")] if _raw_origins != "*" else "*"
 CORS(app, origins=_allowed_origins)
 
 # ------------------------------------------------------------------
