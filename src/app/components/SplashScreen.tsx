@@ -6,9 +6,9 @@ type Props = {
   onDone: () => void;
 };
 
-const MIN_DISPLAY_MS = 10000;
+const MIN_DISPLAY_MS = 2000;
 const FADE_MS = 500;
-const FALLBACK_MS = 6000;
+const FALLBACK_MS = 3000;
 
 export default function SplashScreen({ onDone }: Props) {
   const [fading, setFading] = useState(false);
