@@ -1,12 +1,13 @@
 import "./CustomerIntake.css";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRolePermissions } from "../../hooks/useRolePermissions";
 import { useAppointments } from "../../context/AppointmentContext";
 import { useCustomers } from "../../context/CustomerContext";
 import { useSite } from "../../../context/SiteContext";
 import { useIntakeOptions } from "../../context/IntakeOptionsContext";
 import { createAppointmentPipeline } from "../../services/appointmentPipeline";
-import { runAIAssessment } from "../../../lib/ai";
+import { runAIAssessment, runAIAssessmentAsync } from "../../../lib/ai";
+import type { AIAssessment } from "../../../lib/ai";
 import { useSettings } from "../../../context/SettingsContext";
 import IntakeHeader from "./components/IntakeHeader";
 import CustomerDetailsCard from "./components/CustomerDetailsCard";
@@ -27,10 +28,35 @@ export default function CustomerIntake() {
   const [form, setForm] = useState<IntakeFormData>(initialIntakeForm);
   const [message, setMessage] = useState("");
 
-  const aiAssessment = useMemo(
-    () => runAIAssessment({ checkInCondition: form.checkInCondition }),
-    [form.checkInCondition]
-  );
+  const [aiAssessment, setAiAssessment] = useState<AIAssessment | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!aiSuggestions || !form.checkInCondition.trim()) {
+      setAiAssessment(null);
+      setAiLoading(false);
+      return;
+    }
+    // Instant rule-based preview while Claude loads
+    setAiAssessment(runAIAssessment({ checkInCondition: form.checkInCondition }));
+    setAiLoading(true);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      const result = await runAIAssessmentAsync({
+        checkInCondition: form.checkInCondition,
+        waterDamage: form.waterDamage as "Yes" | "No" | undefined,
+        brand: form.brand,
+        deviceType: form.deviceType,
+      });
+      setAiAssessment(result);
+      setAiLoading(false);
+    }, 900);
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.checkInCondition, form.waterDamage, form.brand, form.deviceType, aiSuggestions]);
 
   // Derive available models from the brand + device type selection
   const availableModels = useMemo(
@@ -212,7 +238,8 @@ export default function CustomerIntake() {
             deviceTypeOptions={options.deviceTypes}
             modelOptions={availableModels}
             colourOptions={options.colours}
-            aiAssessment={aiSuggestions ? aiAssessment : undefined}
+            aiAssessment={aiSuggestions ? aiAssessment ?? undefined : undefined}
+            aiLoading={aiLoading}
           />
           <PaymentInformationCard
             form={form}

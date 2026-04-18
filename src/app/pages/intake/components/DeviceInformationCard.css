@@ -317,3 +317,5 @@
   border-radius: 8px;
   padding: 12px 14px;
 }
+
+@keyframes spin { to { transform: rotate(360deg); } }

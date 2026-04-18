@@ -39,6 +39,8 @@ export type AIAssessmentInput = {
   deviceType?: string;
 };
 
+export type AISentiment = "Urgent" | "Frustrated" | "Neutral" | "Satisfied";
+
 export type AIAssessment = {
   /** Highest urgency across all detected issues */
   suggestedUrgency: AIUrgency;
@@ -58,6 +60,11 @@ export type AIAssessment = {
   suggestedCategory: SuggestedCategory;
   /** Maps urgency to the legacy Low/Medium/High priority field */
   suggestedPriority: SuggestedPriority;
+  // ── Extended fields (Claude API only) ───────────────────
+  sentiment?: AISentiment;
+  sentimentExplanation?: string;
+  /** "claude" when powered by Claude API, "rules" for offline keyword fallback */
+  source?: "claude" | "rules";
 };
 
 // ── Issue definitions ────────────────────────────────────────
@@ -592,6 +599,48 @@ export function runAIAssessment(input: AIAssessmentInput): AIAssessment {
     suggestedCategory,
     suggestedPriority,
   };
+}
+
+// ── Async Claude-powered assessment ─────────────────────────────
+// Calls the Flask /ai/assess endpoint which proxies to Claude Haiku.
+// Falls back to the rule-based runAIAssessment() if the API is unavailable.
+
+import { API_BASE, authFetch } from "./api";
+
+export async function runAIAssessmentAsync(
+  input: AIAssessmentInput
+): Promise<AIAssessment> {
+  try {
+    const res = await authFetch(`${API_BASE}/ai/assess`, {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.success || !data.assessment) throw new Error("Invalid response");
+
+    const a = data.assessment;
+    // Normalise optional fields and merge with fallback for safety
+    const fallback = runAIAssessment(input);
+    return {
+      suggestedUrgency: a.suggestedUrgency ?? fallback.suggestedUrgency,
+      suggestedPriority: a.suggestedPriority ?? fallback.suggestedPriority,
+      suggestedCategory: a.suggestedCategory ?? fallback.suggestedCategory,
+      suggestedCategories: a.suggestedCategories ?? fallback.suggestedCategories,
+      suggestedRisk: a.suggestedRisk ?? fallback.suggestedRisk,
+      repairComplexity: a.repairComplexity ?? fallback.repairComplexity,
+      recommendedNextStatus: a.recommendedNextStatus ?? fallback.recommendedNextStatus,
+      flags: a.flags ?? fallback.flags,
+      confidenceScore: a.confidenceScore ?? fallback.confidenceScore,
+      explanation: a.explanation ?? fallback.explanation,
+      detectedIssues: a.detectedIssues ?? fallback.detectedIssues,
+      sentiment: a.sentiment,
+      sentimentExplanation: a.sentimentExplanation,
+      source: "claude",
+    };
+  } catch {
+    return { ...runAIAssessment(input), source: "rules" };
+  }
 }
 
 // ── Backward-compatible exports (legacy callers) ─────────────

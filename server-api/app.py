@@ -1343,5 +1343,102 @@ def clear_audit_log():
     db.session.commit()
     return jsonify({"success": True}), 200
 
+# ── AI Assessment (Claude Haiku proxy) ────────────────────────────
+
+@app.post("/ai/assess")
+@require_auth
+def ai_assess():
+    import urllib.request as _req
+    import json as _json
+
+    body = request.get_json(silent=True) or {}
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        return jsonify({"error": "AI service not configured", "code": "no_key"}), 503
+
+    check_in = (body.get("checkInCondition") or "").strip()
+    if not check_in:
+        return jsonify({"error": "checkInCondition is required"}), 400
+
+    water_damage  = body.get("waterDamage", "No")
+    back_glass    = body.get("backGlassCracked", "No")
+    ber_flag      = "Yes" if body.get("ber") else "No"
+    status        = body.get("status") or "New"
+    part_required = body.get("partRequired") or "No"
+    part_status   = body.get("partStatus") or ""
+    tech_notes    = (body.get("technicianNotes") or "")[:400]
+    brand         = body.get("brand") or "Unknown"
+    device_type   = body.get("deviceType") or "Device"
+
+    prompt = (
+        "You are an AI diagnostic assistant for ModuServ, a tech repair management platform. "
+        "Analyse the following device intake record and respond with a JSON object ONLY — "
+        "no markdown fences, no prose outside the JSON.\n\n"
+        f"Device: {brand} {device_type}\n"
+        f"Check-in condition: {check_in}\n"
+        f"Water damage: {water_damage}\n"
+        f"Back glass cracked: {back_glass}\n"
+        f"Beyond Economic Repair: {ber_flag}\n"
+        f"Current status: {status}\n"
+        f"Part required: {part_required}\n"
+        f"Part status: {part_status}\n"
+        f"Technician notes: {tech_notes}\n\n"
+        "Return this exact JSON structure (all fields required):\n"
+        '{\n'
+        '  "suggestedUrgency": "Critical"|"High"|"Medium"|"Low",\n'
+        '  "suggestedPriority": "High"|"Medium"|"Low",\n'
+        '  "suggestedCategory": "Power"|"Battery"|"Display"|"Charging"|"General",\n'
+        '  "suggestedCategories": ["array of applicable categories"],\n'
+        '  "suggestedRisk": "High"|"Medium"|"Low",\n'
+        '  "repairComplexity": "Complex"|"Multiple"|"Single",\n'
+        '  "recommendedNextStatus": "valid status string or null",\n'
+        '  "flags": ["actionable warning strings"],\n'
+        '  "confidenceScore": 0.85,\n'
+        '  "explanation": "2-3 sentence clinical explanation of assessment and reasoning",\n'
+        '  "sentiment": "Urgent"|"Frustrated"|"Neutral"|"Satisfied",\n'
+        '  "sentimentExplanation": "one sentence describing customer emotional state",\n'
+        '  "detectedIssues": [\n'
+        '    {"issueId": "snake_case_id", "label": "Human readable label", '
+        '"category": "Power|Battery|Display|Charging|General", '
+        '"urgencyContribution": "Critical|High|Medium|Low"}\n'
+        '  ]\n'
+        '}\n\n'
+        "Valid status values: New, In Diagnosis, Awaiting Repair, In Progress, "
+        "Post Repair Device Check, Pending Postage, Ready For Collection, "
+        "Ready For Collection Unsuccessful, Awaiting Customer Reply, Awaiting Parts"
+    )
+
+    payload = _json.dumps({
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 1024,
+        "messages": [{"role": "user", "content": prompt}],
+    }).encode("utf-8")
+
+    api_req = _req.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=payload,
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        },
+    )
+
+    try:
+        with _req.urlopen(api_req, timeout=20) as resp:
+            result = _json.loads(resp.read().decode("utf-8"))
+        raw = result["content"][0]["text"].strip()
+        # Strip markdown code fences if Claude wraps output
+        if raw.startswith("```"):
+            lines = raw.split("\n")
+            start = 1 if lines[0].startswith("```") else 0
+            end = -1 if lines[-1].strip() == "```" else len(lines)
+            raw = "\n".join(lines[start:end])
+        assessment = _json.loads(raw)
+        return jsonify({"success": True, "assessment": assessment, "source": "claude"})
+    except Exception as exc:
+        return jsonify({"error": str(exc), "code": "api_error"}), 502
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False)
