@@ -6,9 +6,9 @@ type Props = {
   onDone: () => void;
 };
 
-const MIN_DISPLAY_MS = 2000;
+const MIN_DISPLAY_MS = 10000;
 const FADE_MS = 500;
-const FALLBACK_MS = 3000;
+const FALLBACK_MS = 6000;
 
 export default function SplashScreen({ onDone }: Props) {
   const [fading, setFading] = useState(false);
@@ -39,7 +39,21 @@ export default function SplashScreen({ onDone }: Props) {
   }, []);
 
   return (
-    <div className={`ms-splash${fading ? " ms-splash--fade" : ""}`}>
+    <div
+      className={`ms-splash${fading ? " ms-splash--fade" : ""}`}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#ffffff",
+        transition: "opacity 0.5s ease, visibility 0.5s ease",
+        opacity: fading ? 0 : 1,
+        visibility: fading ? "hidden" : "visible",
+      }}
+    >
       <div className="ms-splash__content">
         <div className="ms-splash__logo-wrap">
           <img src={logo} alt="ModuServ" className="ms-splash__logo" />
