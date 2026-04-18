@@ -58,7 +58,8 @@ export default function SplashScreen({ onDone }: Props) {
         <div className="ms-splash__logo-wrap">
           <img src={logo} alt="ModuServ" className="ms-splash__logo" />
         </div>
-        <p className="ms-splash__tagline">Modular Service. Total Control.</p>
+        <h1 className="ms-splash__brand">Moduserv</h1>
+        <p className="ms-splash__tagline">Modular Infrastructure. Infinite Scale.</p>
         <div className="ms-splash__spinner-wrap">
           <div className="ms-splash__spinner" />
         </div>

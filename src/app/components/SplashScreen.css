@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.75rem;
+  gap: 0;
 }
 
 /* ── Logo ── */
 .ms-splash__logo-wrap {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
+  margin-bottom: 1.5rem;
   opacity: 0;
   transform: scale(0.8);
   animation:
@@ -22,18 +23,30 @@
   object-fit: contain;
 }
 
+/* ── Brand name ── */
+.ms-splash__brand {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: ms-splash-rise-simple 0.5s ease-out 0.4s forwards;
+}
+
 /* ── Tagline ── */
 .ms-splash__tagline {
   font-family: Inter, Arial, sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #6b7280;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #9ca3af;
+  letter-spacing: 0.01em;
+  margin: 0 0 2rem;
   opacity: 0;
-  transform: translateY(8px);
-  animation: ms-splash-rise-simple 0.5s ease-out 0.5s forwards;
+  transform: translateY(6px);
+  animation: ms-splash-rise-simple 0.5s ease-out 0.55s forwards;
 }
 
 /* ── Spinner ── */
@@ -43,9 +56,9 @@
 }
 
 .ms-splash__spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid #e5e7eb;
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid #e5e7eb;
   border-top-color: #1a73e8;
   border-radius: 50%;
   animation: ms-splash-spin 0.9s linear infinite;
