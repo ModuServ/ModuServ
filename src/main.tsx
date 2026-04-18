@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./app/App";
 import SplashScreen from "./app/components/SplashScreen";
 import "./styles/global.css";
+import "./styles/responsive.css";
 
 const CACHE_VERSION = "2";
 const storedVersion = localStorage.getItem("moduserv:cacheVersion");

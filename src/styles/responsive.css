@@ -1,0 +1,208 @@
+/* =============================================================
+   ModuServ — Global Responsive System
+   Imported after global.css so these rules cascade correctly.
+   Uses clamp() for fluid scaling between breakpoints.
+   ============================================================= */
+
+/* ── CSS custom properties ─────────────────────────────────── */
+:root {
+  --ms-space-xs:  clamp(4px,  0.5vw, 8px);
+  --ms-space-sm:  clamp(8px,  1vw,   14px);
+  --ms-space-md:  clamp(12px, 1.5vw, 20px);
+  --ms-space-lg:  clamp(16px, 2vw,   28px);
+  --ms-space-xl:  clamp(20px, 2.5vw, 36px);
+  --ms-space-2xl: clamp(24px, 3vw,   48px);
+
+  --ms-font-xs:   clamp(11px, 1.1vw, 12px);
+  --ms-font-sm:   clamp(12px, 1.3vw, 14px);
+  --ms-font-md:   clamp(13px, 1.5vw, 15px);
+  --ms-font-lg:   clamp(16px, 2vw,   18px);
+  --ms-font-xl:   clamp(18px, 2.5vw, 22px);
+  --ms-font-2xl:  clamp(20px, 3vw,   28px);
+  --ms-font-3xl:  clamp(22px, 4vw,   36px);
+  --ms-font-hero: clamp(22px, 5vw,   42px);
+
+  --ms-radius-sm: clamp(8px,  1vw, 12px);
+  --ms-radius-md: clamp(10px, 1.2vw, 16px);
+  --ms-radius-lg: clamp(12px, 1.5vw, 20px);
+}
+
+/* ── Fluid app content padding ─────────────────────────────── */
+.app-content--scrollable {
+  padding: clamp(12px, 2.5vw, 32px) !important;
+}
+
+/* ── Page hero titles (Dashboard, Users, Audit etc.) ────────── */
+.ms-dashboard__title,
+.ms-users__title,
+.ms-audit__title,
+.ms-sync__title,
+.ms-settings__title,
+.ms-repair__title,
+.ms-appt__title,
+.ms-intake__title,
+.ms-calendar__title,
+.ms-customer__title,
+.ms-locations__title,
+.ms-forms__title {
+  font-size: var(--ms-font-hero) !important;
+  line-height: 1.15 !important;
+}
+
+/* ── Subtitle / description text ────────────────────────────── */
+.ms-dashboard__subtitle,
+.ms-users__subtitle,
+.ms-audit__subtitle,
+.ms-sync__subtitle,
+.ms-settings__subtitle,
+.ms-repair__subtitle,
+.ms-appt__subtitle,
+.ms-intake__subtitle {
+  font-size: var(--ms-font-md) !important;
+}
+
+/* ── Stat / metric cards grid ───────────────────────────────── */
+.ms-dashboard__stats {
+  grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr)) !important;
+  gap: clamp(10px, 1.5vw, 18px) !important;
+}
+
+/* ── Two-panel modal layouts (repair, appointment, calendar) ── */
+@media (max-width: 900px) {
+  .ms-repair-modal__body,
+  .ms-appt-modal__body,
+  .ms-cal-appt-modal__body,
+  [class*="__modal-body"],
+  [class*="__body--two-col"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Tables — horizontal scroll on mobile ───────────────────── */
+@media (max-width: 768px) {
+  .ms-repair-table__wrap,
+  .ms-appt-table__wrap,
+  [class*="__table-wrap"],
+  [class*="__table-container"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 560px;
+  }
+}
+
+/* ── Form / intake grids ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ms-intake-card__grid,
+  .ms-intake-card__grid--triple,
+  [class*="__grid"],
+  [class*="__form-grid"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Stat / info card padding ───────────────────────────────── */
+.ms-dashboard__stat-card,
+[class*="__stat-card"],
+[class*="__info-card"] {
+  padding: clamp(12px, 1.5vw, 20px) !important;
+  gap: clamp(8px, 1vw, 14px) !important;
+}
+
+/* ── Header bars (page headers with title + actions) ────────── */
+[class*="__header"] {
+  gap: clamp(8px, 1.5vw, 16px);
+}
+
+/* ── Button / toolbar spacing ───────────────────────────────── */
+@media (max-width: 600px) {
+  [class*="__toolbar"],
+  [class*="__actions"],
+  [class*="__header-actions"] {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  [class*="__toolbar"] button,
+  [class*="__actions"] button {
+    font-size: 13px;
+    padding: 0 12px;
+    min-height: 38px;
+  }
+}
+
+/* ── Stat number font ────────────────────────────────────────── */
+.ms-dashboard__stat-value,
+[class*="__stat-value"] {
+  font-size: var(--ms-font-2xl) !important;
+}
+
+/* ── Cards / panels ─────────────────────────────────────────── */
+[class*="__card"],
+[class*="__panel"],
+[class*="__section"] {
+  border-radius: var(--ms-radius-md);
+}
+
+/* ── Login page ─────────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .ms-login__header h1 {
+    font-size: clamp(22px, 5vw, 38px) !important;
+  }
+}
+
+/* ── TopNav height ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .ms-topnav {
+    min-height: 56px !important;
+  }
+}
+
+/* ── Repair / Appointment stats bar ─────────────────────────── */
+@media (max-width: 768px) {
+  [class*="__stats"],
+  [class*="__stats-bar"] {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  [class*="__stat-item"],
+  [class*="__stats-item"] {
+    padding: 10px 12px !important;
+  }
+}
+
+/* ── Customer / search two-column layout ────────────────────── */
+@media (max-width: 900px) {
+  [class*="__layout--two-col"],
+  [class*="__split"],
+  .ms-customer__layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Modals — full screen on mobile ─────────────────────────── */
+@media (max-width: 600px) {
+  [class*="__modal"],
+  [class*="-modal"] {
+    border-radius: 16px 16px 0 0 !important;
+    max-height: 92vh !important;
+    margin-top: auto !important;
+  }
+
+  [class*="__modal-overlay"],
+  [class*="-modal-overlay"] {
+    align-items: flex-end !important;
+  }
+}
+
+/* ── Prevent any element from overflowing its container ─────── */
+img, video, iframe {
+  max-width: 100%;
+}
+
+* {
+  min-width: 0;
+}

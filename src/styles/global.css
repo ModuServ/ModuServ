@@ -5009,18 +5009,7 @@ body {
   }
 }
 
-/* ── Mobile responsive ───────────────────────────────────────── */
-@media (max-width: 768px) {
-  .app-content--scrollable {
-    padding: 16px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-content--scrollable {
-    padding: 12px !important;
-  }
-}
+/* padding now handled by responsive.css with clamp() */
 
 .app-main--fixed {
   flex: 1 1 auto;
