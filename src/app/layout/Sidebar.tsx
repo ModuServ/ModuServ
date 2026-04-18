@@ -15,6 +15,7 @@ import {
   Search,
   Settings,
   Users,
+  X,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
@@ -87,6 +88,11 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
           <Link to="/dashboard" className="ms-sidebar__brand-link" aria-label="Go to dashboard">
             <img src={logo} alt="ModuServ" className="ms-sidebar__logo" />
           </Link>
+          {onClose && (
+            <button className="ms-sidebar__close-btn" onClick={onClose} aria-label="Close menu">
+              <X size={20} />
+            </button>
+          )}
         </div>
         <SiteSwitcher />
       </div>
