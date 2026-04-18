@@ -17,11 +17,10 @@ function Root() {
   const [splashDone, setSplashDone] = useState(false);
   const handleDone = useCallback(() => setSplashDone(true), []);
 
-  return (
-    <>
-      {!splashDone && <SplashScreen onDone={handleDone} />}
-      <App />
-    </>
+  return splashDone ? (
+    <App />
+  ) : (
+    <SplashScreen onDone={handleDone} />
   );
 }
 
