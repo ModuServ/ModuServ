@@ -4987,6 +4987,41 @@ body {
   overflow: hidden !important;
 }
 
+/* ── Mobile sidebar overlay ──────────────────────────────────── */
+.ms-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1099;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* ── Tablet responsive ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .app-shell--fixed {
+    flex-direction: column;
+  }
+
+  .app-main--fixed {
+    height: 100vh;
+    width: 100%;
+  }
+}
+
+/* ── Mobile responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-content--scrollable {
+    padding: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-content--scrollable {
+    padding: 12px !important;
+  }
+}
+
 .app-main--fixed {
   flex: 1 1 auto;
   min-width: 0;

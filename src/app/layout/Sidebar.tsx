@@ -25,7 +25,9 @@ import { useForms } from "../context/FormsContext";
 import SiteSwitcher from "./sidebar/SiteSwitcher";
 import RoleSwitcher from "./sidebar/RoleSwitcher";
 
-export default function Sidebar() {
+type SidebarProps = { isOpen?: boolean; onClose?: () => void };
+
+export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const { user, logout } = useAuth();
   const { pendingCount, failedCount } = useSync();
   const permissions = useRolePermissions();
@@ -79,7 +81,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="ms-sidebar">
+    <aside className={`ms-sidebar${isOpen ? " ms-sidebar--open" : ""}`}>
       <div className="ms-sidebar__top-fixed">
         <div className="ms-sidebar__brand-wrap">
           <Link to="/dashboard" className="ms-sidebar__brand-link" aria-label="Go to dashboard">
@@ -90,7 +92,7 @@ export default function Sidebar() {
       </div>
 
       <div className="ms-sidebar__scroll">
-        <nav className="ms-sidebar__nav">
+        <nav className="ms-sidebar__nav" onClick={onClose}>
 
           {/* ── Customers ─────────────────────────────────────────────── */}
           <div className="ms-sidebar__group">
