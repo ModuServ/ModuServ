@@ -11,7 +11,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-load_dotenv()  # reads server-api/.env automatically
+# Load .env relative to this file so it works regardless of CWD
+_HERE = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(_HERE, ".env"))
 
 app = Flask(__name__)
 _raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
@@ -19,12 +21,47 @@ _allowed_origins = [o.strip() for o in _raw_origins.split(",")] if _raw_origins 
 CORS(app, origins=_allowed_origins)
 
 # ------------------------------------------------------------------
-# Database — PostgreSQL via DATABASE_URL, SQLite fallback for local dev
+# Database — Neon PostgreSQL when reachable, SQLite fallback offline
 # ------------------------------------------------------------------
-_db_url = os.environ.get("DATABASE_URL", "sqlite:///moduserv_server.db")
-# Heroku / Railway expose postgres:// which SQLAlchemy 1.4+ rejects
-if _db_url.startswith("postgres://"):
-    _db_url = _db_url.replace("postgres://", "postgresql://", 1)
+def _resolve_db_url() -> str:
+    """
+    Attempt a real SQLAlchemy connection to Neon (SELECT 1, 5s timeout).
+    If it succeeds → use DATABASE_URL (PostgreSQL).
+    If it fails for any reason → fall back to local SQLite.
+    A raw TCP check is unreliable for Neon because it requires SSL and
+    some networks block port 5432; an actual query attempt is definitive.
+    """
+    raw = os.environ.get("DATABASE_URL", "")
+    if raw.startswith("postgres://"):
+        raw = raw.replace("postgres://", "postgresql://", 1)
+
+    if not raw or not raw.startswith("postgresql"):
+        print("[DB] DATABASE_URL not set or not a PostgreSQL URL — using local SQLite.")
+        return "sqlite:///moduserv_server.db"
+
+    # Show masked URL so we can confirm it was loaded
+    masked = raw[:30] + "..." if len(raw) > 30 else raw
+    print(f"[DB] DATABASE_URL found: {masked}")
+
+    try:
+        from sqlalchemy import create_engine, text as sa_text
+        probe = create_engine(
+            raw,
+            connect_args={"connect_timeout": 5},
+            pool_size=1,
+            max_overflow=0,
+        )
+        with probe.connect() as conn:
+            conn.execute(sa_text("SELECT 1"))
+        probe.dispose()
+        print("[DB] ✓ Neon PostgreSQL reachable — using cloud database.")
+        return raw
+    except Exception as e:
+        print(f"[DB] ✗ Neon connection failed: {e}")
+        print("[DB] Falling back to local SQLite.")
+        return "sqlite:///moduserv_server.db"
+
+_db_url = _resolve_db_url()
 app.config["SQLALCHEMY_DATABASE_URI"] = _db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JSON_AS_ASCII"] = False  # serve non-ASCII chars as UTF-8, not \uXXXX escapes
@@ -1343,101 +1380,230 @@ def clear_audit_log():
     db.session.commit()
     return jsonify({"success": True}), 200
 
-# ── AI Assessment (Claude Haiku proxy) ────────────────────────────
+# ── ML model loader (lazy, loaded once per process) ───────────────────────
+
+_ml_models = {}
+
+def _load_ml_models():
+    """Load trained LR + RF models from disk. Trains them first if missing."""
+    global _ml_models
+    if _ml_models:
+        return _ml_models
+    import sys
+    sys.path.insert(0, os.path.dirname(__file__))
+    from ml.train import train_and_save, models_exist, get_model_paths
+    import joblib
+
+    if not models_exist():
+        print("[ML] Models not found — training now (first run only)...")
+        train_and_save()
+
+    paths = get_model_paths()
+    _ml_models = {k: joblib.load(v) for k, v in paths.items()}
+    print("[ML] Models loaded successfully.")
+    return _ml_models
+
+
+def _fetch_ifixit_context(brand: str, device_type: str) -> dict | None:
+    """
+    Live internet lookup: calls the iFixit public API to retrieve repair guide
+    data for the device. Returns repairability context to enrich the assessment.
+    No API key required — iFixit provides a free public REST API.
+    """
+    import urllib.request as _req
+    import urllib.parse as _parse
+    import json as _json
+
+    query = f"{brand} {device_type}".strip()
+    if not query or query == "Unknown Device":
+        return None
+
+    try:
+        encoded = _parse.quote(query)
+        url = f"https://www.ifixit.com/api/2.0/search/{encoded}?doctypes=guide&limit=5"
+        req = _req.Request(url, headers={"User-Agent": "ModuServ/1.0 (repair management system)"})
+        with _req.urlopen(req, timeout=4) as resp:
+            data = _json.loads(resp.read().decode("utf-8"))
+
+        results = data.get("results", [])
+        if not results:
+            return {"guideCount": 0, "repairability": "No public guides found", "source": "iFixit"}
+
+        difficulties = [r.get("difficulty") for r in results if r.get("difficulty")]
+        top_guide    = results[0].get("title", "")
+
+        if difficulties:
+            difficulty_map = {"Very Easy": 1, "Easy": 2, "Moderate": 3, "Difficult": 4, "Very Difficult": 5}
+            avg = sum(difficulty_map.get(d, 3) for d in difficulties) / len(difficulties)
+            repairability = (
+                "Easy to repair (community-supported)"       if avg <= 2 else
+                "Moderate repair difficulty"                 if avg <= 3 else
+                "Difficult repair — specialist recommended"
+            )
+        else:
+            repairability = "Repair guides available" if results else "Limited repair data"
+
+        return {
+            "guideCount":    len(results),
+            "topGuide":      top_guide,
+            "repairability": repairability,
+            "source":        "iFixit"
+        }
+    except Exception:
+        return None  # Non-fatal — assessment proceeds without live context
+
+
+def _urgency_from_priority(priority: str) -> str:
+    return {"High": "High", "Medium": "Medium", "Low": "Low"}.get(priority, "Medium")
+
+
+def _risk_from_priority(priority: str, water: bool) -> str:
+    if water or priority == "High":
+        return "High"
+    if priority == "Medium":
+        return "Medium"
+    return "Low"
+
+
+# ── AI Assessment (ML Engine — LR + Random Forest ensemble) ──────────────────
 
 @app.post("/ai/assess")
 @require_auth
 def ai_assess():
-    import urllib.request as _req
-    import json as _json
+    import numpy as np
 
-    body = request.get_json(silent=True) or {}
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        return jsonify({"error": "AI service not configured", "code": "no_key"}), 503
+    body         = request.get_json(silent=True) or {}
+    check_in     = (body.get("checkInCondition") or "").strip()
+    water_damage = (body.get("waterDamage") or "No") == "Yes"
+    ber          = bool(body.get("ber"))
+    brand        = (body.get("brand") or "Unknown").strip()
+    device_type  = (body.get("deviceType") or "Device").strip()
 
-    check_in = (body.get("checkInCondition") or "").strip()
     if not check_in:
         return jsonify({"error": "checkInCondition is required"}), 400
 
-    water_damage  = body.get("waterDamage", "No")
-    back_glass    = body.get("backGlassCracked", "No")
-    ber_flag      = "Yes" if body.get("ber") else "No"
-    status        = body.get("status") or "New"
-    part_required = body.get("partRequired") or "No"
-    part_status   = body.get("partStatus") or ""
-    tech_notes    = (body.get("technicianNotes") or "")[:400]
-    brand         = body.get("brand") or "Unknown"
-    device_type   = body.get("deviceType") or "Device"
-
-    prompt = (
-        "You are an AI diagnostic assistant for ModuServ, a tech repair management platform. "
-        "Analyse the following device intake record and respond with a JSON object ONLY — "
-        "no markdown fences, no prose outside the JSON.\n\n"
-        f"Device: {brand} {device_type}\n"
-        f"Check-in condition: {check_in}\n"
-        f"Water damage: {water_damage}\n"
-        f"Back glass cracked: {back_glass}\n"
-        f"Beyond Economic Repair: {ber_flag}\n"
-        f"Current status: {status}\n"
-        f"Part required: {part_required}\n"
-        f"Part status: {part_status}\n"
-        f"Technician notes: {tech_notes}\n\n"
-        "Return this exact JSON structure (all fields required):\n"
-        '{\n'
-        '  "suggestedUrgency": "Critical"|"High"|"Medium"|"Low",\n'
-        '  "suggestedPriority": "High"|"Medium"|"Low",\n'
-        '  "suggestedCategory": "Power"|"Battery"|"Display"|"Charging"|"General",\n'
-        '  "suggestedCategories": ["array of applicable categories"],\n'
-        '  "suggestedRisk": "High"|"Medium"|"Low",\n'
-        '  "repairComplexity": "Complex"|"Multiple"|"Single",\n'
-        '  "recommendedNextStatus": "valid status string or null",\n'
-        '  "flags": ["actionable warning strings"],\n'
-        '  "confidenceScore": 0.85,\n'
-        '  "explanation": "2-3 sentence clinical explanation of assessment and reasoning",\n'
-        '  "sentiment": "Urgent"|"Frustrated"|"Neutral"|"Satisfied",\n'
-        '  "sentimentExplanation": "one sentence describing customer emotional state",\n'
-        '  "detectedIssues": [\n'
-        '    {"issueId": "snake_case_id", "label": "Human readable label", '
-        '"category": "Power|Battery|Display|Charging|General", '
-        '"urgencyContribution": "Critical|High|Medium|Low"}\n'
-        '  ]\n'
-        '}\n\n'
-        "Valid status values: New, In Diagnosis, Awaiting Repair, In Progress, "
-        "Post Repair Device Check, Pending Postage, Ready For Collection, "
-        "Ready For Collection Unsuccessful, Awaiting Customer Reply, Awaiting Parts"
-    )
-
-    payload = _json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 1024,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-
-    api_req = _req.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "x-api-key": api_key,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        },
-    )
+    # Build the text feature: condition + device context
+    feature_text = f"{check_in} {brand} {device_type}".lower()
+    if water_damage:
+        feature_text += " water damage"
+    if ber:
+        feature_text += " beyond economic repair"
 
     try:
-        with _req.urlopen(api_req, timeout=20) as resp:
-            result = _json.loads(resp.read().decode("utf-8"))
-        raw = result["content"][0]["text"].strip()
-        # Strip markdown code fences if Claude wraps output
-        if raw.startswith("```"):
-            lines = raw.split("\n")
-            start = 1 if lines[0].startswith("```") else 0
-            end = -1 if lines[-1].strip() == "```" else len(lines)
-            raw = "\n".join(lines[start:end])
-        assessment = _json.loads(raw)
-        return jsonify({"success": True, "assessment": assessment, "source": "claude"})
+        m = _load_ml_models()
+
+        # ── Priority: LR + RF ensemble (averaged probabilities) ──────────
+        p_vec  = m["priority_vec"]
+        p_X    = p_vec.transform([feature_text])
+        p_classes = m["priority_lr"].classes_
+
+        lr_p_proba = m["priority_lr"].predict_proba(p_X)[0]
+        rf_p_proba = m["priority_rf"].predict_proba(p_X)[0]
+
+        # Align RF class order to LR class order
+        rf_p_classes = m["priority_rf"].classes_
+        rf_p_aligned = np.array([
+            rf_p_proba[list(rf_p_classes).index(c)] if c in rf_p_classes else 0.0
+            for c in p_classes
+        ])
+
+        ensemble_p  = (lr_p_proba + rf_p_aligned) / 2.0
+        priority    = p_classes[int(np.argmax(ensemble_p))]
+        p_confidence = float(np.max(ensemble_p))
+
+        lr_priority = p_classes[int(np.argmax(lr_p_proba))]
+        rf_priority = p_classes[int(np.argmax(rf_p_aligned))]
+
+        # ── Category: LR + RF ensemble ────────────────────────────────────
+        c_vec     = m["category_vec"]
+        c_X       = c_vec.transform([feature_text])
+        c_classes = m["category_lr"].classes_
+
+        lr_c_proba = m["category_lr"].predict_proba(c_X)[0]
+        rf_c_proba = m["category_rf"].predict_proba(c_X)[0]
+
+        rf_c_classes = m["category_rf"].classes_
+        rf_c_aligned = np.array([
+            rf_c_proba[list(rf_c_classes).index(c)] if c in rf_c_classes else 0.0
+            for c in c_classes
+        ])
+
+        ensemble_c   = (lr_c_proba + rf_c_aligned) / 2.0
+        category     = c_classes[int(np.argmax(ensemble_c))]
+        c_confidence = float(np.max(ensemble_c))
+
+        # Top-2 categories for suggestedCategories
+        top2_idx    = np.argsort(ensemble_c)[::-1][:2]
+        categories  = [c_classes[i] for i in top2_idx if ensemble_c[i] > 0.1]
+
+        overall_confidence = round((p_confidence + c_confidence) / 2.0, 2)
+
     except Exception as exc:
-        return jsonify({"error": str(exc), "code": "api_error"}), 502
+        return jsonify({"error": f"Model error: {exc}", "code": "model_error"}), 500
+
+    # ── Live internet context (iFixit) ────────────────────────────────────
+    ifixit = _fetch_ifixit_context(brand, device_type)
+
+    # ── Build assessment response ─────────────────────────────────────────
+    urgency = _urgency_from_priority(priority)
+    if water_damage and urgency == "High":
+        urgency = "Critical"
+
+    risk = _risk_from_priority(priority, water_damage)
+
+    complexity = (
+        "Complex"  if water_damage and priority == "High" else
+        "Multiple" if len(categories) > 1 else
+        "Single"
+    )
+
+    flags = []
+    if water_damage:
+        flags.append("Water damage detected — elevated risk to internal components")
+    if ber:
+        flags.append("Device marked as Beyond Economic Repair")
+    if priority == "High" and not water_damage:
+        flags.append("High priority — book in for immediate diagnosis")
+    if ifixit and ifixit.get("guideCount", 0) == 0:
+        flags.append("No public repair guides found — may require specialist assessment")
+
+    explanation_parts = [
+        f"ML ensemble (Logistic Regression + Random Forest) assessed this as {priority} priority, "
+        f"category: {category} (confidence {overall_confidence:.0%}).",
+        f"LR predicted {lr_priority} priority; RF predicted {rf_priority} priority — ensemble: {priority}.",
+    ]
+    if ifixit:
+        explanation_parts.append(
+            f"Live iFixit lookup found {ifixit['guideCount']} repair guide(s) for {brand} {device_type}: "
+            f"{ifixit['repairability']}."
+        )
+    if water_damage:
+        explanation_parts.append("Water damage significantly escalates repair risk and urgency.")
+
+    assessment = {
+        "suggestedPriority":     priority,
+        "suggestedUrgency":      urgency,
+        "suggestedCategory":     category,
+        "suggestedCategories":   categories if categories else [category],
+        "suggestedRisk":         risk,
+        "repairComplexity":      complexity,
+        "recommendedNextStatus": "In Diagnosis",
+        "flags":                 flags,
+        "confidenceScore":       overall_confidence,
+        "explanation":           " ".join(explanation_parts),
+        "detectedIssues":        [{"issueId": category.lower(), "label": category, "category": category, "urgencyContribution": urgency}],
+        "liveContext":           ifixit,
+        "modelDetails": {
+            "lr_priority":       lr_priority,
+            "rf_priority":       rf_priority,
+            "ensemble_priority": priority,
+            "lr_category":       m["category_lr"].classes_[int(np.argmax(lr_c_proba))],
+            "rf_category":       m["category_rf"].classes_[int(np.argmax(rf_c_aligned))],
+            "ensemble_category": category,
+        },
+    }
+
+    return jsonify({"success": True, "assessment": assessment, "source": "ml"})
 
 
 if __name__ == "__main__":

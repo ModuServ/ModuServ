@@ -1,7 +1,7 @@
 import "./DeviceInformationCard.css";
 import { useState } from "react";
 import { Smartphone, X, AlertTriangle, Loader2 } from "lucide-react";
-import type { AIAssessment, AIUrgency, AISentiment } from "../../../../lib/ai";
+import type { AIAssessment, AIUrgency } from "../../../../lib/ai";
 import type { IntakeFormData } from "../intakeTypes";
 import { brandOptions as staticBrandOptions, colourOptions as staticColourOptions, deviceTypeOptions as staticDeviceTypeOptions } from "../data/intakeData";
 
@@ -31,19 +31,6 @@ const URGENCY_BG: Record<AIUrgency, string> = {
   Low: "#f3f4f6",
 };
 
-const SENTIMENT_COLOUR: Record<AISentiment, string> = {
-  Urgent: "#991b1b",
-  Frustrated: "#92400e",
-  Neutral: "#374151",
-  Satisfied: "#166534",
-};
-const SENTIMENT_BG: Record<AISentiment, string> = {
-  Urgent: "#fee2e2",
-  Frustrated: "#fef3c7",
-  Neutral: "#f3f4f6",
-  Satisfied: "#f0fdf4",
-};
-
 type Props = {
   form: IntakeFormData;
   disabled: boolean;
@@ -52,7 +39,7 @@ type Props = {
   deviceTypeOptions?: string[];
   modelOptions?: string[];
   colourOptions?: string[];
-  aiAssessment?: AIAssessment;
+  aiAssessment?: AIAssessment & { source?: "ml" | "rules"; liveContext?: Record<string, unknown> | null };
   aiLoading?: boolean;
 };
 
@@ -135,50 +122,32 @@ export default function DeviceInformationCard({
           <div className="ms-intake-ai-hint">
             <span
               className="ms-intake-ai-hint__pill"
-              title={aiAssessment?.source === "claude" ? "Powered by Claude AI — double-click for full assessment" : "Double-click to view full AI assessment"}
-              style={aiAssessment?.source === "claude" ? { background: "#4f46e5", color: "#fff" } : undefined}
+              title="Double-click to view full ML assessment"
+              style={aiAssessment?.source === "ml" ? { background: "#0f766e", color: "#fff" } : undefined}
               onDoubleClick={() => aiAssessment && setModalOpen(true)}
-            >{aiAssessment?.source === "claude" ? "Claude AI" : "AI"}</span>
-            {aiLoading && aiAssessment?.source !== "claude" ? (
+            >
+              {aiAssessment?.source === "ml" ? "ML Engine" : "AI"}
+            </span>
+            {aiLoading && aiAssessment?.source !== "ml" ? (
               <span style={{ display: "flex", alignItems: "center", gap: 4, color: "#6b7280", fontSize: "0.8rem" }}>
                 <Loader2 size={12} style={{ animation: "spin 1s linear infinite" }} />
-                Analysing with Claude…
+                Analysing…
               </span>
             ) : aiAssessment ? (
               <>
-                <span>
-                  Urgency:{" "}
-                  <strong>{aiAssessment.suggestedUrgency}</strong>
-                </span>
-                {aiAssessment.detectedIssues.length > 1 ? (
-                  <span>
-                    <strong>{aiAssessment.detectedIssues.length} issues</strong> detected
-                  </span>
-                ) : (
-                  <span>
-                    Category:{" "}
-                    <strong>{aiAssessment.suggestedCategory}</strong>
-                  </span>
-                )}
+                <span>Urgency: <strong>{aiAssessment.suggestedUrgency}</strong></span>
+                <span>Category: <strong>{aiAssessment.suggestedCategory}</strong></span>
                 {aiAssessment.repairComplexity !== "Single" ? (
-                  <span className="ms-intake-ai-hint__complexity">
-                    {aiAssessment.repairComplexity}
-                  </span>
+                  <span className="ms-intake-ai-hint__complexity">{aiAssessment.repairComplexity}</span>
                 ) : null}
                 {aiAssessment.flags.length > 0 ? (
                   <span className="ms-intake-ai-hint__flags">
                     {aiAssessment.flags.length} flag{aiAssessment.flags.length === 1 ? "" : "s"}
                   </span>
                 ) : null}
-                {aiAssessment.sentiment ? (
-                  <span
-                    className="ms-intake-ai-hint__complexity"
-                    style={{
-                      background: SENTIMENT_BG[aiAssessment.sentiment],
-                      color: SENTIMENT_COLOUR[aiAssessment.sentiment],
-                    }}
-                  >
-                    {aiAssessment.sentiment}
+                {aiAssessment.source === "ml" && (aiAssessment as { liveContext?: { guideCount?: number } | null }).liveContext ? (
+                  <span style={{ fontSize: "0.75rem", color: "#0f766e" }}>
+                    iFixit: {(aiAssessment as { liveContext?: { guideCount?: number } | null }).liveContext?.guideCount ?? 0} guides
                   </span>
                 ) : null}
               </>
@@ -238,22 +207,15 @@ export default function DeviceInformationCard({
             >
               {aiAssessment.repairComplexity} repair
             </span>
-            {aiAssessment.sentiment ? (
-              <span
-                className="ms-intake-ai-modal__badge"
-                style={{
-                  background: SENTIMENT_BG[aiAssessment.sentiment],
-                  color: SENTIMENT_COLOUR[aiAssessment.sentiment],
-                }}
-              >
-                Sentiment: {aiAssessment.sentiment}
-              </span>
-            ) : null}
             <span
               className="ms-intake-ai-modal__badge"
-              style={{ background: aiAssessment.source === "claude" ? "#eef2ff" : "#f3f4f6", color: aiAssessment.source === "claude" ? "#4f46e5" : "#6b7280", fontSize: "0.7rem" }}
+              style={
+                (aiAssessment as { source?: string }).source === "ml"
+                  ? { background: "#ccfbf1", color: "#0f766e", fontSize: "0.7rem" }
+                  : { background: "#f3f4f6", color: "#6b7280", fontSize: "0.7rem" }
+              }
             >
-              {aiAssessment.source === "claude" ? "Claude AI" : "Rule-based"}
+              {(aiAssessment as { source?: string }).source === "ml" ? "ML Engine (LR + RF)" : "Rule-based"}
             </span>
           </div>
 
@@ -306,15 +268,21 @@ export default function DeviceInformationCard({
             </section>
           )}
 
-          {/* Sentiment analysis */}
-          {aiAssessment.sentimentExplanation ? (
-            <section>
-              <p className="ms-intake-ai-modal__section-title">Customer Sentiment</p>
-              <p className="ms-intake-ai-modal__explanation" style={{ marginTop: 4 }}>
-                {aiAssessment.sentimentExplanation}
-              </p>
-            </section>
-          ) : null}
+          {/* Live iFixit context */}
+          {(aiAssessment as { liveContext?: Record<string, unknown> | null }).liveContext ? (() => {
+            const lc = (aiAssessment as { liveContext?: Record<string, unknown> | null }).liveContext!;
+            return (
+              <section>
+                <p className="ms-intake-ai-modal__section-title">
+                  Live Repair Data — iFixit
+                </p>
+                <p className="ms-intake-ai-modal__explanation" style={{ marginTop: 4 }}>
+                  <strong>{String(lc.guideCount ?? 0)}</strong> public repair guide{Number(lc.guideCount ?? 0) !== 1 ? "s" : ""} found.{" "}
+                  {String(lc.repairability ?? "")}{lc.topGuide ? ` Top guide: "${String(lc.topGuide)}".` : ""}
+                </p>
+              </section>
+            );
+          })() : null}
 
           {/* Explanation */}
           <p className="ms-intake-ai-modal__explanation">{aiAssessment.explanation}</p>

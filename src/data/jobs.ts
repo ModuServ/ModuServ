@@ -65,6 +65,8 @@ export type Job = {
   deletedBy: string;
   restoredAt: string;
   restoredBy: string;
+
+  siteId?: string;
 };
 
 export const initialJobs: Job[] = [];

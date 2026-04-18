@@ -38,7 +38,7 @@ export default function CustomerIntake() {
       setAiLoading(false);
       return;
     }
-    // Instant rule-based preview while Claude loads
+    // Instant rule-based preview while ML model loads
     setAiAssessment(runAIAssessment({ checkInCondition: form.checkInCondition }));
     setAiLoading(true);
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -51,10 +51,8 @@ export default function CustomerIntake() {
       });
       setAiAssessment(result);
       setAiLoading(false);
-    }, 900);
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
+    }, 700);
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.checkInCondition, form.waterDamage, form.brand, form.deviceType, aiSuggestions]);
 

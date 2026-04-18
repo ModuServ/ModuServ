@@ -9,6 +9,9 @@ import {
 import { initialJobs, type Job } from "../data/jobs";
 import { useAudit } from "./AuditContext";
 import { useSync } from "./SyncContext";
+import { useSite } from "./SiteContext";
+import { useAuth } from "./AuthContext";
+import { API_BASE, authFetch } from "../lib/api";
 
 type JobsContextType = {
   jobs: Job[];
@@ -40,19 +43,47 @@ function nowIso(): string {
 }
 
 export function JobsProvider({ children }: { children: ReactNode }) {
-  const [jobs, setJobs] = useState<Job[]>(() => loadJobs());
+  const [allJobs, setAllJobs] = useState<Job[]>(() => loadJobs());
   const { logEvent } = useAudit();
   const { addToQueue } = useSync();
+  const { selectedSiteId } = useSite();
+  const { user } = useAuth();
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
-  }, [jobs]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allJobs));
+  }, [allJobs]);
+
+  // Re-fetch jobs from backend whenever the selected site changes
+  useEffect(() => {
+    if (!user) return;
+    async function fetchJobs() {
+      try {
+        const res = await authFetch(`${API_BASE}/jobs?site_id=${selectedSiteId}`);
+        if (!res.ok) return;
+        const data = await res.json() as Job[];
+        if (Array.isArray(data)) {
+          // Replace this site's jobs with server data; preserve other sites' local jobs
+          setAllJobs((prev) => {
+            const otherSites = prev.filter((j) => j.siteId && j.siteId !== selectedSiteId);
+            return [...otherSites, ...data];
+          });
+        }
+      } catch { /* offline — keep localStorage */ }
+    }
+    void fetchJobs();
+  }, [user, selectedSiteId]);
+
+  // Only expose jobs belonging to the current site
+  const jobs = useMemo(
+    () => allJobs.filter((j) => !j.siteId || j.siteId === selectedSiteId),
+    [allJobs, selectedSiteId]
+  );
 
   const createJob = (input: Omit<Job, "id">) => {
     const nextNumber =
-      jobs.length > 0
+      allJobs.length > 0
         ? Math.max(
-            ...jobs.map((job) => {
+            ...allJobs.map((job) => {
               const numericPart = Number(job.id.replace("job-", ""));
               return Number.isNaN(numericPart) ? 0 : numericPart;
             })
@@ -62,9 +93,10 @@ export function JobsProvider({ children }: { children: ReactNode }) {
     const newJob: Job = {
       id: `job-${String(nextNumber).padStart(3, "0")}`,
       ...input,
+      siteId: input.siteId ?? selectedSiteId,
     };
 
-    setJobs((prev) => [...prev, newJob]);
+    setAllJobs((prev) => [...prev, newJob]);
     addToQueue("job", newJob.id, "create", { ...newJob, createdBy: "System" });
 
     logEvent(newJob.id, "JOB_CREATED", `Job created for ${newJob.customerFirstName} ${newJob.customerLastName}.`);
@@ -112,7 +144,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
       repairDurationMinutes: nextRepairDurationMinutes ?? "",
     };
 
-    setJobs((prev) => prev.map((job) => (job.id === id ? updatedJob : job)));
+    setAllJobs((prev) => prev.map((job) => (job.id === id ? updatedJob : job)));
     addToQueue("job", id, "update", { ...updatedJob, updatedBy: "System" });
 
     logEvent(id, "JOB_UPDATED", `Job updated. Current status: ${updatedJob.status}.`);
@@ -135,7 +167,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
   };
 
   const softDeleteJobLocal = (id: string, performedBy: string) => {
-    setJobs((prev) =>
+    setAllJobs((prev) =>
       prev.map((job) =>
         job.id === id
           ? {
@@ -163,7 +195,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
   };
 
   const restoreJobLocal = (id: string, performedBy: string) => {
-    setJobs((prev) =>
+    setAllJobs((prev) =>
       prev.map((job) =>
         job.id === id
           ? {
@@ -190,10 +222,10 @@ export function JobsProvider({ children }: { children: ReactNode }) {
     logEvent(id, "JOB_RESTORED", `Job restored by ${performedBy}.`);
   };
 
-  const getJobById = (id: string) => jobs.find((job) => job.id === id);
+  const getJobById = (id: string) => allJobs.find((job) => job.id === id);
 
   const resetJobs = () => {
-    setJobs(initialJobs);
+    setAllJobs(initialJobs);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initialJobs));
   };
 
@@ -207,7 +239,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
       getJobById,
       resetJobs,
     }),
-    [jobs]
+    [jobs, allJobs, selectedSiteId]
   );
 
   return <JobsContext.Provider value={value}>{children}</JobsContext.Provider>;
