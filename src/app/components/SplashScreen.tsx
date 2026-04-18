@@ -39,6 +39,8 @@ export default function SplashScreen({ onDone }: Props) {
   }, []);
 
   return (
+    <>
+    <style>{`@keyframes ms-splash-spin { to { transform: rotate(360deg); } } @keyframes ms-splash-pulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 0px rgba(26,115,232,0))} 50%{transform:scale(1.08);filter:drop-shadow(0 0 18px rgba(26,115,232,0.35))} }`}</style>
     <div
       className={`ms-splash${fading ? " ms-splash--fade" : ""}`}
       style={{
@@ -73,10 +75,18 @@ export default function SplashScreen({ onDone }: Props) {
         >
           Modular Infrastructure. Infinite Scale.
         </p>
-        <div className="ms-splash__spinner-wrap">
-          <div className="ms-splash__spinner" />
+        <div style={{ opacity: 1 }}>
+          <div style={{
+            width: 28,
+            height: 28,
+            border: "2.5px solid #e5e7eb",
+            borderTopColor: "#1a73e8",
+            borderRadius: "50%",
+            animation: "ms-splash-spin 0.9s linear infinite",
+          }} />
         </div>
       </div>
     </div>
+    </>
   );
 }
