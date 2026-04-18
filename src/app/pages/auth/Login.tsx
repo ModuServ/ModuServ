@@ -1,7 +1,7 @@
 import "./Login.css";
 import logo from "../../../assets/ModuServ_Version2.png";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Sun, CloudSun, Sunset, Moon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -11,10 +11,10 @@ export default function Login() {
 
   const hour = new Date().getHours();
   const greeting =
-    hour < 12 ? { text: "Good Morning", emoji: "☀️" } :
-    hour < 17 ? { text: "Good Afternoon", emoji: "🌤️" } :
-    hour < 21 ? { text: "Good Evening", emoji: "🌆" } :
-                { text: "Good Night", emoji: "🌙" };
+    hour < 12 ? { text: "Good Morning",   icon: <Sun     size={28} color="#f59e0b" /> } :
+    hour < 17 ? { text: "Good Afternoon", icon: <CloudSun size={28} color="#0ea5e9" /> } :
+    hour < 21 ? { text: "Good Evening",   icon: <Sunset  size={28} color="#f97316" /> } :
+                { text: "Good Night",     icon: <Moon    size={28} color="#6366f1" /> };
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -52,8 +52,9 @@ export default function Login() {
 
         <div className="ms-login__content">
           <div className="ms-login__header">
-            <h1 style={{ whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: "0.35rem" }}>
-              {greeting.text}<span style={{ fontSize: "1.4rem", lineHeight: 1 }}>{greeting.emoji}</span>
+            <h1 style={{ display: "flex", alignItems: "center", gap: "0.5rem", whiteSpace: "nowrap" }}>
+              {greeting.text}
+              <span style={{ display: "flex", alignItems: "center" }}>{greeting.icon}</span>
             </h1>
             <p>Sign in to your account to continue.</p>
           </div>
