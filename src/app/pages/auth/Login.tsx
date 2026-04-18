@@ -9,7 +9,12 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const returningUser = localStorage.getItem("moduserv:returningUser");
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? { text: "Good Morning", emoji: "☀️" } :
+    hour < 17 ? { text: "Good Afternoon", emoji: "🌤️" } :
+    hour < 21 ? { text: "Good Evening", emoji: "🌆" } :
+                { text: "Good Night", emoji: "🌙" };
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -47,17 +52,8 @@ export default function Login() {
 
         <div className="ms-login__content">
           <div className="ms-login__header">
-            {returningUser ? (
-              <>
-                <h1>Welcome back</h1>
-                <p>Sign in to continue.</p>
-              </>
-            ) : (
-              <>
-                <h1>Sign in</h1>
-                <p>Enter your credentials to get started.</p>
-              </>
-            )}
+            <h1>{greeting.emoji} {greeting.text}</h1>
+            <p>Sign in to your account to continue.</p>
           </div>
 
           <form className="ms-login__form" onSubmit={handleSubmit}>
