@@ -52,9 +52,8 @@ export default function Login() {
 
         <div className="ms-login__content">
           <div className="ms-login__header">
-            <h1 style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexWrap: "nowrap" }}>
-              {greeting.text}
-              <span style={{ fontSize: "1.6rem", lineHeight: 1 }}>{greeting.emoji}</span>
+            <h1 style={{ whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+              {greeting.text}<span style={{ fontSize: "1.4rem", lineHeight: 1 }}>{greeting.emoji}</span>
             </h1>
             <p>Sign in to your account to continue.</p>
           </div>
