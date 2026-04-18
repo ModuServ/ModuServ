@@ -54,12 +54,25 @@ export default function SplashScreen({ onDone }: Props) {
         visibility: fading ? "hidden" : "visible",
       }}
     >
-      <div className="ms-splash__content">
-        <div className="ms-splash__logo-wrap">
-          <img src={logo} alt="ModuServ" className="ms-splash__logo" />
+      <div className="ms-splash__content" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div
+          className="ms-splash__logo-wrap"
+          style={{ width: 160, height: 160, marginBottom: "1.5rem", flexShrink: 0 }}
+        >
+          <img src={logo} alt="ModuServ" className="ms-splash__logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
         </div>
-        <h1 className="ms-splash__brand">Moduserv</h1>
-        <p className="ms-splash__tagline">Modular Infrastructure. Infinite Scale.</p>
+        <h1
+          className="ms-splash__brand"
+          style={{ fontFamily: "Inter, Arial, sans-serif", fontSize: "2.5rem", fontWeight: 700, color: "#111827", letterSpacing: "-0.02em", margin: "0 0 0.5rem" }}
+        >
+          Moduserv
+        </h1>
+        <p
+          className="ms-splash__tagline"
+          style={{ fontFamily: "Inter, Arial, sans-serif", fontSize: "0.9rem", fontWeight: 400, color: "#9ca3af", margin: "0 0 2rem" }}
+        >
+          Modular Infrastructure. Infinite Scale.
+        </p>
         <div className="ms-splash__spinner-wrap">
           <div className="ms-splash__spinner" />
         </div>
