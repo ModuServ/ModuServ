@@ -1,34 +1,19 @@
-.ms-splash {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-  visibility: visible;
-}
-
-.ms-splash--fade {
-  opacity: 0;
-  visibility: hidden;
-}
-
-
 .ms-splash__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.75rem;
 }
 
+/* ── Logo ── */
 .ms-splash__logo-wrap {
-  width: 96px;
-  height: 96px;
+  width: 140px;
+  height: 140px;
   opacity: 0;
-  transform: translateY(12px);
-  animation: ms-splash-rise 0.5s ease-out 0.1s forwards;
+  transform: scale(0.8);
+  animation:
+    ms-splash-rise 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards,
+    ms-splash-pulse 2.4s ease-in-out 0.8s infinite;
 }
 
 .ms-splash__logo {
@@ -37,47 +22,53 @@
   object-fit: contain;
 }
 
-.ms-splash__brand {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #111827;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: ms-splash-rise 0.5s ease-out 0.25s forwards;
-}
-
+/* ── Tagline ── */
 .ms-splash__tagline {
-  font-size: 0.8125rem;
-  font-weight: 400;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
   color: #6b7280;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   margin: 0;
   opacity: 0;
   transform: translateY(8px);
-  animation: ms-splash-rise 0.5s ease-out 0.4s forwards;
+  animation: ms-splash-rise-simple 0.5s ease-out 0.5s forwards;
 }
 
+/* ── Spinner ── */
 .ms-splash__spinner-wrap {
   opacity: 0;
-  animation: ms-splash-rise 0.4s ease-out 0.6s forwards;
+  animation: ms-splash-rise-simple 0.4s ease-out 0.8s forwards;
 }
 
 .ms-splash__spinner {
-  width: 24px;
-  height: 24px;
-  border: 2.5px solid #e5e7eb;
-  border-top-color: #2563eb;
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #1a73e8;
   border-radius: 50%;
-  animation: ms-splash-spin 0.7s linear infinite;
+  animation: ms-splash-spin 0.9s linear infinite;
 }
 
+/* ── Keyframes ── */
 @keyframes ms-splash-rise {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ms-splash-rise-simple {
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes ms-splash-pulse {
+  0%, 100% { transform: scale(1);     filter: drop-shadow(0 0 0px rgba(26,115,232,0));   }
+  50%       { transform: scale(1.08); filter: drop-shadow(0 0 18px rgba(26,115,232,0.35)); }
 }
 
 @keyframes ms-splash-spin {
