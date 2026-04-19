@@ -35,8 +35,7 @@
   flex-wrap: wrap;
 }
 
-.ms-appointments-toolbar__filter,
-.ms-appointments-toolbar__date {
+.ms-appointments-toolbar__filter {
   height: 46px;
   border: 1px solid #d1d5db;
   border-radius: 12px;
@@ -47,13 +46,55 @@
   background: #ffffff;
 }
 
-.ms-appointments-toolbar__filter select,
+.ms-appointments-toolbar__filter select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.ms-appointments-toolbar__date-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms-appointments-toolbar__date {
+  height: 46px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
 .ms-appointments-toolbar__date input {
   border: none;
   outline: none;
   background: transparent;
   font-size: 0.95rem;
   color: #111827;
+}
+
+.ms-appointments-toolbar__clear-btn {
+  height: 46px;
+  padding: 0 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #9ca3af;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ms-appointments-toolbar__clear-btn.is-active {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff;
 }
 
 @media (max-width: 720px) {

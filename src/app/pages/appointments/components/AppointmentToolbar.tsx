@@ -50,12 +50,22 @@ export default function AppointmentToolbar({
           </select>
         </div>
 
-        <div className="ms-appointments-toolbar__date">
-          <input
-            type="date"
-            value={dateFilter}
-            onChange={(e) => onDateChange(e.target.value)}
-          />
+        <div className="ms-appointments-toolbar__date-row">
+          <div className="ms-appointments-toolbar__date">
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => onDateChange(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            className={`ms-appointments-toolbar__clear-btn${dateFilter ? " is-active" : ""}`}
+            onClick={() => onDateChange("")}
+            aria-label="Clear date filter"
+          >
+            Clear
+          </button>
         </div>
       </div>
     </div>

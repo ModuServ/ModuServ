@@ -1,5 +1,5 @@
 import "./RepairToolbar.css";
-import { CalendarRange, Filter, Search } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import type { WorkflowStatus } from "../workflowTypes";
 
 type Props = {
@@ -55,22 +55,40 @@ export default function RepairToolbar({
         </div>
 
         <div className="ms-repair-toolbar__date-group">
-          <div className="ms-repair-toolbar__date">
-            <CalendarRange size={16} />
-            <input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => onDateFromChange(e.target.value)}
-            />
+          <div className="ms-repair-toolbar__date-row">
+            <div className="ms-repair-toolbar__date">
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => onDateFromChange(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              className={`ms-repair-toolbar__clear-btn${dateFrom ? " is-active" : ""}`}
+              onClick={() => onDateFromChange("")}
+              aria-label="Clear from date"
+            >
+              Clear
+            </button>
           </div>
 
-          <div className="ms-repair-toolbar__date">
-            <CalendarRange size={16} />
-            <input
-              type="date"
-              value={dateTo}
-              onChange={(e) => onDateToChange(e.target.value)}
-            />
+          <div className="ms-repair-toolbar__date-row">
+            <div className="ms-repair-toolbar__date">
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => onDateToChange(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              className={`ms-repair-toolbar__clear-btn${dateTo ? " is-active" : ""}`}
+              onClick={() => onDateToChange("")}
+              aria-label="Clear to date"
+            >
+              Clear
+            </button>
           </div>
         </div>
       </div>
