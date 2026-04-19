@@ -73,7 +73,7 @@ export function IntakeOptionsProvider({ children }: { children: React.ReactNode 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(options));
   }, [options]);
 
-  // Fetch from backend only when logged in
+  // Fetch from backend when logged in; poll every 30s to stay in sync
   useEffect(() => {
     if (!user) return;
     async function fetchFromAPI() {
@@ -88,6 +88,8 @@ export function IntakeOptionsProvider({ children }: { children: React.ReactNode 
       } catch { /* backend offline */ }
     }
     fetchFromAPI();
+    const poll = setInterval(fetchFromAPI, 2_000);
+    return () => clearInterval(poll);
   }, [user, selectedSiteId]);
 
   // Debounced sync to backend — fires 1 s after last mutation

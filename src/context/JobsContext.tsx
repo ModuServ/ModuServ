@@ -53,7 +53,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(allJobs));
   }, [allJobs]);
 
-  // Re-fetch jobs from backend whenever the selected site changes
+  // Fetch jobs from backend; poll every 30s to stay in sync
   useEffect(() => {
     if (!user) return;
     async function fetchJobs() {
@@ -62,7 +62,6 @@ export function JobsProvider({ children }: { children: ReactNode }) {
         if (!res.ok) return;
         const data = await res.json() as Job[];
         if (Array.isArray(data)) {
-          // Replace this site's jobs with server data; preserve other sites' local jobs
           setAllJobs((prev) => {
             const otherSites = prev.filter((j) => j.siteId && j.siteId !== selectedSiteId);
             return [...otherSites, ...data];
@@ -71,6 +70,8 @@ export function JobsProvider({ children }: { children: ReactNode }) {
       } catch { /* offline — keep localStorage */ }
     }
     void fetchJobs();
+    const poll = setInterval(() => { void fetchJobs(); }, 2_000);
+    return () => clearInterval(poll);
   }, [user, selectedSiteId]);
 
   // Only expose jobs belonging to the current site

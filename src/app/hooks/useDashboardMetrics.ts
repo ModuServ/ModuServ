@@ -1,18 +1,15 @@
 import { useMemo } from "react";
 import { useAppointments } from "../context/AppointmentContext";
 import { useCustomers } from "../context/CustomerContext";
-import { useJobs } from "../../context/JobsContext";
 import { useSync } from "../../context/SyncContext";
 
 export function useDashboardMetrics() {
   const { appointments } = useAppointments();
   const { customers } = useCustomers();
-  const { jobs } = useJobs();
   const { pendingCount } = useSync();
 
   const safeAppointments = appointments ?? [];
   const safeCustomers = customers ?? [];
-  const safeJobs = jobs ?? [];
 
   return useMemo(() => {
     // ── Appointment status counts ────────────────────────────
@@ -46,22 +43,19 @@ export function useDashboardMetrics() {
     // ── Customers — from CustomerContext (accurate) ──────────
     const totalCustomers = safeCustomers.length;
 
-    // ── Jobs — from JobsContext (non-deleted) ────────────────
-    const liveJobs = safeJobs.filter((j) => !j.isDeleted);
-    const totalJobs        = liveJobs.length;
-    const jobsNew          = liveJobs.filter((j) => j.status === "New").length;
-    const jobsHighPriority = liveJobs.filter((j) => j.priority === "High").length;
-    const jobsMedPriority  = liveJobs.filter((j) => j.priority === "Medium").length;
-    const jobsLowPriority  = liveJobs.filter((j) => j.priority === "Low").length;
+    // ── High urgency — appointments in active critical stages ──
+    const highUrgency = safeAppointments.filter((a) =>
+      a.status === "In Progress" || a.status === "Awaiting Diagnosis"
+    ).length;
 
     return {
       // Top-level counts
       totalAppointments: safeAppointments.length,
       totalCustomers,
-      totalJobs,
       pendingSync: pendingCount,
       activeAppointments,
       todayCount,
+      highUrgency,
 
       // Appointment pipeline statuses
       awaitingDiagnosis,
@@ -75,12 +69,6 @@ export function useDashboardMetrics() {
       completed,
       cancelled,
       closed,
-
-      // Job metrics
-      jobsNew,
-      jobsHighPriority,
-      jobsMedPriority,
-      jobsLowPriority,
     };
-  }, [safeAppointments, safeCustomers, safeJobs, pendingCount]);
+  }, [safeAppointments, safeCustomers, pendingCount]);
 }

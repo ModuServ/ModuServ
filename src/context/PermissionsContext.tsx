@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { API_BASE, authFetch } from "../lib/api";
+import { useAuth } from "./AuthContext";
 
 export type PermissionSet = {
   accessDashboard: boolean;
@@ -325,6 +326,7 @@ function cachePermissions(map: RolePermissionsMap) {
 }
 
 export function PermissionsProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [rolePermissions, setRolePermissions] = useState<RolePermissionsMap>(() => {
     const stored = localStorage.getItem(PERMISSIONS_CACHE_KEY);
     if (stored) {
@@ -341,19 +343,25 @@ export function PermissionsProvider({ children }: { children: ReactNode }) {
     cachePermissions(rolePermissions);
   }, [rolePermissions]);
 
-  // Fetch from backend on mount (non-blocking — cached value used immediately)
+  // Fetch from backend when logged in; poll every 30s so permission changes propagate
   useEffect(() => {
-    authFetch(`${API_BASE}/role-permissions`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: Record<string, PermissionSet>) => {
-        setRolePermissions((prev) => {
-          const merged = applyLockedRoles({ ...systemRoleDefaults, ...prev, ...data });
-          cachePermissions(merged);
-          return merged;
-        });
-      })
-      .catch(() => { /* backend unavailable — cached value stands */ });
-  }, []);
+    if (!user) return;
+    function fetchPermissions() {
+      authFetch(`${API_BASE}/role-permissions`)
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((data: Record<string, PermissionSet>) => {
+          setRolePermissions((prev) => {
+            const merged = applyLockedRoles({ ...systemRoleDefaults, ...prev, ...data });
+            cachePermissions(merged);
+            return merged;
+          });
+        })
+        .catch(() => { /* backend unavailable — cached value stands */ });
+    }
+    fetchPermissions();
+    const poll = setInterval(fetchPermissions, 2_000);
+    return () => clearInterval(poll);
+  }, [user]);
 
   // Debounced sync: push a single role's permissions to backend 800ms after last change
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

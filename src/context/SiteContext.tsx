@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { API_BASE, authFetch } from "../lib/api";
+import { useAuth } from "./AuthContext";
 
 export type SiteOption = {
   id: string;
@@ -43,25 +44,30 @@ type SiteContextType = {
 const SiteContext = createContext<SiteContextType | undefined>(undefined);
 
 export function SiteProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [sites, setSites] = useState<SiteOption[]>(loadCached);
 
   const [selectedSiteId, setSelectedSiteIdState] = useState<string>(() => {
     return localStorage.getItem(SELECTED_SITE_KEY) || "site-1";
   });
 
-  // Fetch from backend on mount; use cached sites as the immediate value
+  // Fetch from backend when logged in; poll every 30s so location changes propagate
   useEffect(() => {
-    authFetch(`${API_BASE}/locations`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: Array<{ id: string; name: string }>) => {
-        const loaded: SiteOption[] = data.map((d) => ({ id: d.id, name: d.name }));
-        setSites(loaded);
-        cache(loaded);
-      })
-      .catch(() => {
-        // backend unavailable — stay on cached sites
-      });
-  }, []);
+    if (!user) return;
+    function fetchLocations() {
+      authFetch(`${API_BASE}/locations`)
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((data: Array<{ id: string; name: string }>) => {
+          const loaded: SiteOption[] = data.map((d) => ({ id: d.id, name: d.name }));
+          setSites(loaded);
+          cache(loaded);
+        })
+        .catch(() => { /* backend unavailable — stay on cached sites */ });
+    }
+    fetchLocations();
+    const poll = setInterval(fetchLocations, 2_000);
+    return () => clearInterval(poll);
+  }, [user]);
 
   useEffect(() => {
     localStorage.setItem(SELECTED_SITE_KEY, selectedSiteId);

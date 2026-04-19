@@ -39,7 +39,7 @@ export function AuditProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
   }, [entries]);
 
-  // Background fetch from backend only when logged in
+  // Fetch from backend when logged in; poll every 30s so entries stay in sync
   useEffect(() => {
     if (!user) return;
     async function fetchFromAPI() {
@@ -54,6 +54,8 @@ export function AuditProvider({ children }: { children: ReactNode }) {
       } catch { /* backend offline */ }
     }
     fetchFromAPI();
+    const poll = setInterval(fetchFromAPI, 2_000);
+    return () => clearInterval(poll);
   }, [user]);
 
   const logEvent = (recordId: string, action: AuditAction, message: string, options?: LogOptions) => {

@@ -30,7 +30,7 @@ export function AppointmentProvider({ children }: { children: React.ReactNode })
     saveAppointments(appointments);
   }, [appointments]);
 
-  // Fetch from backend only when logged in, re-runs on login or site change
+  // Fetch from backend when logged in; poll every 30s to stay in sync across devices
   useEffect(() => {
     if (!user) return;
     async function fetchFromAPI() {
@@ -45,6 +45,8 @@ export function AppointmentProvider({ children }: { children: React.ReactNode })
       } catch { /* backend offline — keep localStorage data */ }
     }
     fetchFromAPI();
+    const poll = setInterval(fetchFromAPI, 2_000);
+    return () => clearInterval(poll);
   }, [user, selectedSiteId]);
 
   async function addAppointment(appt: AppointmentRecord) {

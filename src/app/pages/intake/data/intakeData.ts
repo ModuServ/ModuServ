@@ -370,6 +370,19 @@ export const paymentStatusOptions = [
   "Refunded",
 ];
 
+function defaultAppointmentDate(): string {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+}
+
+function defaultAppointmentTime(): string {
+  const d = new Date();
+  const mins = d.getMinutes();
+  const rounded = mins < 30 ? 30 : 0;
+  const h = rounded === 0 ? d.getHours() + 1 : d.getHours();
+  return `${String(h % 24).padStart(2, "0")}:${String(rounded).padStart(2, "0")}`;
+}
+
 export const initialIntakeForm = {
   firstName: "",
   lastName: "",
@@ -389,6 +402,6 @@ export const initialIntakeForm = {
   amount: "",
   paymentType: "",
   paymentStatus: "",
-  appointmentDate: "",
-  appointmentTime: "",
+  appointmentDate: defaultAppointmentDate(),
+  appointmentTime: defaultAppointmentTime(),
 };

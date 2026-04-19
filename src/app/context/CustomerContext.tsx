@@ -47,7 +47,7 @@ export function CustomerProvider({ children }: { children: React.ReactNode }) {
     saveCustomers(customers);
   }, [customers]);
 
-  // Fetch from backend only when logged in
+  // Fetch from backend when logged in; poll every 30s to stay in sync across devices
   useEffect(() => {
     if (!user) return;
     async function fetchFromAPI() {
@@ -62,10 +62,19 @@ export function CustomerProvider({ children }: { children: React.ReactNode }) {
       } catch { /* backend offline */ }
     }
     fetchFromAPI();
+    const poll = setInterval(fetchFromAPI, 2_000);
+    return () => clearInterval(poll);
   }, [user, selectedSiteId]);
 
   function addCustomer(customer: CustomerRecord) {
     setCustomers((prev) => [customer, ...prev]);
+    const payload = { ...customer, siteId: selectedSiteId };
+    authFetch(`${API_BASE}/customers`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }).catch(() => {
+      addToQueue("customer", customer.id, "create", payload);
+    });
   }
 
   function updateCustomer(id: string, updates: Partial<CustomerRecord>) {

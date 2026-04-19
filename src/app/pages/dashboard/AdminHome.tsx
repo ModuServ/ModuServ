@@ -189,8 +189,8 @@ export default function AdminHome() {
                 <div className="ms-dashboard__glance-icon" style={{ background: "#fef2f2", color: "#ef4444" }}>
                   <Wrench size={15} />
                 </div>
-                <span className="ms-dashboard__glance-label">High Priority Jobs</span>
-                <strong className="ms-dashboard__glance-value">{m.jobsHighPriority}</strong>
+                <span className="ms-dashboard__glance-label">High Urgency</span>
+                <strong className="ms-dashboard__glance-value">{m.highUrgency}</strong>
               </div>
               <div className="ms-dashboard__glance-row">
                 <div className="ms-dashboard__glance-icon" style={{ background: "#fef3c7", color: "#f59e0b" }}>
@@ -206,15 +206,13 @@ export default function AdminHome() {
                 <span className="ms-dashboard__glance-label">Completed (All Time)</span>
                 <strong className="ms-dashboard__glance-value">{m.completed}</strong>
               </div>
-              {m.totalJobs > 0 && (
-                <div className="ms-dashboard__glance-row">
-                  <div className="ms-dashboard__glance-icon" style={{ background: "#f5f3ff", color: "#6366f1" }}>
-                    <Activity size={15} />
-                  </div>
-                  <span className="ms-dashboard__glance-label">Jobs (Backend)</span>
-                  <strong className="ms-dashboard__glance-value">{m.totalJobs}</strong>
+              <div className="ms-dashboard__glance-row">
+                <div className="ms-dashboard__glance-icon" style={{ background: "#f5f3ff", color: "#6366f1" }}>
+                  <Activity size={15} />
                 </div>
-              )}
+                <span className="ms-dashboard__glance-label">Awaiting Parts</span>
+                <strong className="ms-dashboard__glance-value">{m.awaitingParts}</strong>
+              </div>
             </div>
           </section>
 

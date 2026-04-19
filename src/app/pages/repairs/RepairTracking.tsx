@@ -5,6 +5,7 @@ import { useAppointments } from "../../context/AppointmentContext";
 import { useRolePermissions } from "../../hooks/useRolePermissions";
 import { useAudit } from "../../../context/AuditContext";
 import { useSite } from "../../../context/SiteContext";
+import { useAuth } from "../../../context/AuthContext";
 import {
   canEditRecord,
   getLockBannerText,
@@ -64,6 +65,7 @@ const allWorkflowStatuses: AppointmentStatus[] = [
 export default function RepairTracking() {
   const { appointments, updateAppointment, deleteAppointment } = useAppointments();
   const { selectedSiteId } = useSite();
+  const { user } = useAuth();
   const location = useLocation();
   const incomingId = (location.state as { openId?: string } | null)?.openId ?? null;
   const {
@@ -328,8 +330,14 @@ export default function RepairTracking() {
 function handleQuickProgress(nextStatus: AppointmentStatus) {
     if (!progressRecord || !canEditWorkflowStatus) return;
     if (progressRecord.status === nextStatus) return;
+    if (nextStatus === "In Progress" && !selectedRole?.toLowerCase().includes("technician") && selectedRole !== "Primary Admin") return;
 
-    updateAppointment(progressRecord.id, { status: nextStatus });
+    const technicianAssignment =
+      nextStatus === "In Progress"
+        ? { technician: user?.username ?? selectedRole ?? "Unknown" }
+        : {};
+
+    updateAppointment(progressRecord.id, { status: nextStatus, ...technicianAssignment });
     setMessage(`${progressRecord.id} moved to ${nextStatus}.`);
     closeProgressModal();
   }
@@ -409,8 +417,16 @@ function handleQuickProgress(nextStatus: AppointmentStatus) {
     let changed = false;
 
     if (canEditWorkflowStatus && original?.status !== draftStatus) {
+      if (draftStatus === "In Progress" && !selectedRole?.toLowerCase().includes("technician") && selectedRole !== "Primary Admin") {
+        setMessage("Only technician roles can set status to In Progress.");
+        return;
+      }
       payload.status = draftStatus;
       changed = true;
+
+      if (draftStatus === "In Progress") {
+        payload.technician = user?.username ?? selectedRole ?? "Unknown";
+      }
 
       if (triggerSettings.activity) {
         logActivity("STATUS", `Status changed to ${draftStatus}`);

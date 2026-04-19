@@ -46,25 +46,29 @@ export function RoleRegistryProvider({ children }: { children: ReactNode }) {
 
   const [roles, setRoles] = useState<RoleRecord[]>(loadCached);
 
-  // Fetch from backend when user is logged in
+  // Fetch from backend when logged in; poll every 30s so role changes propagate
   useEffect(() => {
     if (!user) return;
-    authFetch(`${API_BASE}/roles`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: Array<{ name: string; kind: string }>) => {
-        const loaded: RoleRecord[] = data.map((d) => ({
-          name: d.name,
-          kind: d.kind === "system" ? "system" : "custom",
-        }));
-        // Always ensure DEFAULT_ROLES are present (guards against empty backend)
-        const names = new Set(loaded.map((r) => r.name));
-        for (const def of DEFAULT_ROLES) {
-          if (!names.has(def.name)) loaded.push(def);
-        }
-        setRoles(loaded);
-        cache(loaded);
-      })
-      .catch(() => { /* stay on cached */ });
+    function fetchRoles() {
+      authFetch(`${API_BASE}/roles`)
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
+        .then((data: Array<{ name: string; kind: string }>) => {
+          const loaded: RoleRecord[] = data.map((d) => ({
+            name: d.name,
+            kind: d.kind === "system" ? "system" : "custom",
+          }));
+          const names = new Set(loaded.map((r) => r.name));
+          for (const def of DEFAULT_ROLES) {
+            if (!names.has(def.name)) loaded.push(def);
+          }
+          setRoles(loaded);
+          cache(loaded);
+        })
+        .catch(() => { /* stay on cached */ });
+    }
+    fetchRoles();
+    const poll = setInterval(fetchRoles, 2_000);
+    return () => clearInterval(poll);
   }, [user?.id]);
 
   // Seed any new system roles that were added after localStorage was first written

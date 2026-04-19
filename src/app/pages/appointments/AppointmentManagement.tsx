@@ -15,10 +15,10 @@ import type {
   AppointmentActivityEntry,
 } from "./appointmentTypes";
 import { createAppointmentPipeline } from "../../services/appointmentPipeline";
-import { useJobs } from "../../../context/JobsContext";
 import { useSite } from "../../../context/SiteContext";
 import { useCustomers } from "../../context/CustomerContext";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import AppointmentHeader from "./components/AppointmentHeader";
 import AppointmentStats from "./components/AppointmentStats";
 import AppointmentToolbar from "./components/AppointmentToolbar";
@@ -57,9 +57,9 @@ const smsTemplateBodies: Record<string, string> = {
 export default function AppointmentManagement() {
   const { appointments, addAppointment, updateAppointment: updateAppointmentInContext, deleteAppointment } = useAppointments();
   const { logEvent } = useAudit();
-  const { createJob } = useJobs();
   const { selectedSiteId } = useSite();
   const { customers } = useCustomers();
+  const { user } = useAuth();
   const location = useLocation();
   const incomingId = (location.state as { openId?: string } | null)?.openId ?? null;
 
@@ -86,7 +86,6 @@ export default function AppointmentManagement() {
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [progressId, setProgressId] = useState<string | null>(null);
-  const [pendingEscalateId, setPendingEscalateId] = useState<string | null>(null);
   const [modalMode, setModalMode] = useState<"view" | "edit">("view");
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -282,76 +281,6 @@ export default function AppointmentManagement() {
     setFeedbackMessage(`Record ${id} unlocked.`);
   }
 
-  function handleEscalate(id: string) {
-    const apt = appointments.find((a) => a.id === id);
-    if (!apt || apt.escalatedToJobId) return;
-    setPendingEscalateId(id);
-  }
-
-  function confirmEscalate() {
-    const id = pendingEscalateId;
-    setPendingEscalateId(null);
-    if (!id) return;
-    const apt = appointments.find((a) => a.id === id);
-    if (!apt || apt.escalatedToJobId) return;
-
-    const nameParts = (apt.customer ?? "").trim().split(/\s+/);
-    const customerFirstName = nameParts[0] ?? "";
-    const customerLastName = nameParts.slice(1).join(" ") || "";
-
-    const newJob = createJob({
-      customerId: apt.customerId ?? "",
-      appointmentId: id,
-      customerFirstName: apt.customerInfo?.firstName ?? customerFirstName,
-      customerLastName: apt.customerInfo?.lastName ?? customerLastName,
-      customerEmail: apt.customerInfo?.email ?? "",
-      customerPhone: apt.customerInfo?.phoneNumber ?? "",
-      addressLine1: apt.customerInfo?.addressLine1 ?? "",
-      addressLine2: apt.customerInfo?.addressLine2 ?? "",
-      county: apt.customerInfo?.county ?? "",
-      postcode: apt.customerInfo?.postcode ?? "",
-
-      brand: apt.deviceInfo?.brand ?? apt.brand ?? "",
-      deviceType: apt.deviceInfo?.deviceType ?? apt.deviceType ?? "",
-      deviceModel: apt.deviceInfo?.deviceModel ?? apt.deviceModel ?? "",
-      colour: apt.deviceInfo?.colour ?? "",
-      imei: apt.deviceInfo?.imei ?? "",
-      serialNumber: apt.deviceInfo?.serialNumber ?? "",
-      checkInCondition: apt.deviceInfo?.checkInCondition ?? apt.checkInCondition ?? "",
-
-      paymentAmount: apt.paymentInfo?.amount ?? "",
-      paymentType: apt.paymentInfo?.paymentType ?? "",
-      paymentStatus: apt.paymentInfo?.paymentStatus ?? "",
-
-      status: "New",
-      priority: "Medium",
-      suggestedPriority: "Medium",
-      category: "General",
-      priorityWasOverridden: false,
-      ber: false,
-      qcStatus: "",
-      backglass: apt.deviceInfo?.backGlassCracked ?? apt.backGlassCracked ?? "No",
-      partRequired: "",
-      partAllocated: "",
-      partName: "",
-      partType: "",
-      partSupplier: "",
-      partStatus: "",
-      repairStartTime: "",
-      repairEndTime: "",
-      repairDurationMinutes: "",
-      isDeleted: false,
-      deletedAt: "",
-      deletedBy: "",
-      restoredAt: "",
-      restoredBy: "",
-    });
-
-    updateAppointmentInContext(id, { escalatedToJobId: newJob.id });
-    logEvent(id, "APPOINTMENT_ESCALATED", `Appointment ${id} escalated to Job ${newJob.id} by ${selectedRole}.`, { entityType: "appointment", createdBy: selectedRole });
-    setFeedbackMessage(`Appointment ${id} escalated to Job ${newJob.id}.`);
-  }
-
   async function handleDeleteAppointment(id: string) {
     const confirmed = window.confirm(`Delete appointment ${id}? This cannot be undone.`);
     if (!confirmed) return;
@@ -407,6 +336,7 @@ export default function AppointmentManagement() {
 
   function handleQuickProgress(nextStatus: AppointmentStatus) {
     if (!progressId || !canEditRepairStatus) return;
+    if (nextStatus === "In Progress" && !isTechnicianRole(selectedRole) && selectedRole !== "Primary Admin") return;
 
     const apt = appointments.find((a) => a.id === progressId);
     const activityEntry: AppointmentActivityEntry = {
@@ -417,8 +347,14 @@ export default function AppointmentManagement() {
       timestamp: new Date().toLocaleString(),
     };
 
+    const technicianAssignment =
+      nextStatus === "In Progress" && apt?.status !== "In Progress"
+        ? { technician: user?.username ?? selectedRole }
+        : {};
+
     updateAppointmentInContext(progressId, {
       status: nextStatus,
+      ...technicianAssignment,
       activityLog: [activityEntry, ...(apt?.activityLog ?? [])],
     });
 
@@ -428,8 +364,8 @@ export default function AppointmentManagement() {
 
   function handleSave() {
     if (!activeId) return;
-
     const apt = appointments.find((a) => a.id === activeId);
+    if (draftStatus === "In Progress" && apt?.status !== "In Progress" && !isTechnicianRole(selectedRole) && selectedRole !== "Primary Admin") return;
     const activityEntry: AppointmentActivityEntry = {
       type: "STATUS",
       message: `Record updated by ${selectedRole}`,
@@ -438,8 +374,14 @@ export default function AppointmentManagement() {
       timestamp: new Date().toLocaleString(),
     };
 
+    const technicianAssignment =
+      draftStatus === "In Progress" && apt?.status !== "In Progress"
+        ? { technician: user?.username ?? selectedRole }
+        : {};
+
     updateAppointmentInContext(activeId, {
       status: draftStatus,
+      ...technicianAssignment,
       additionalInformation: draftAdditionalInformation,
       checkInCondition: draftCheckInCondition,
       technicianNotes: draftTechnicianNotes,
@@ -566,7 +508,6 @@ export default function AppointmentManagement() {
           onProgress={openProgressModal}
           onLock={handleLockAppointment}
           onUnlock={handleUnlockAppointment}
-          onEscalate={handleEscalate}
           onDelete={(id) => void handleDeleteAppointment(id)}
         />
       </div>
@@ -712,63 +653,56 @@ export default function AppointmentManagement() {
           <div
             className="ms-appointments-progress-modal"
             onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
           >
-            <h3>Progress Appointment</h3>
-            <p>
-              {progressAppointment.id} · {progressAppointment.customer}
-            </p>
-            <div className="ms-appointments-progress-modal__options">
-              {allAppointmentStatuses.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => handleQuickProgress(s)}
-                >
-                  {s}
-                </button>
-              ))}
+            <div className="ms-appointments-progress-modal__header">
+              <div>
+                <h3>Progress Appointment</h3>
+                <p>
+                  {progressAppointment.id} · {progressAppointment.customer} · Current:{" "}
+                  <strong>{progressAppointment.status}</strong>
+                </p>
+              </div>
+              <button
+                type="button"
+                className="ms-appointments-progress-modal__close"
+                onClick={closeProgressModal}
+                aria-label="Close progress modal"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="ms-appointments-progress-modal__body">
+              <div className="ms-appointments-progress-modal__grid">
+                {allAppointmentStatuses.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    className={`ms-appointments-progress-modal__status-button ${progressAppointment.status === s ? "is-current" : ""}`}
+                    onClick={() => handleQuickProgress(s)}
+                    disabled={progressAppointment.status === s}
+                  >
+                    {progressAppointment.status === s ? `Current: ${s}` : `Move to ${s}`}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="ms-appointments-progress-modal__footer">
+              <button
+                type="button"
+                className="ms-appointments-progress-modal__secondary"
+                onClick={closeProgressModal}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
       ) : null}
 
-      {pendingEscalateId ? (() => {
-        const apt = appointments.find((a) => a.id === pendingEscalateId);
-        return (
-          <div className="ms-appointments-confirm-modal__backdrop" onClick={() => setPendingEscalateId(null)}>
-            <div
-              className="ms-appointments-confirm-modal"
-              onClick={(e) => e.stopPropagation()}
-              role="dialog"
-              aria-modal="true"
-            >
-              <h3 className="ms-appointments-confirm-modal__title">Escalate to Job?</h3>
-              <p className="ms-appointments-confirm-modal__body">
-                This will create a new repair job for <strong>{apt?.customer ?? pendingEscalateId}</strong>
-                {apt?.device ? <> · <em>{apt.device}</em></> : null}.
-                <br />
-                This action cannot be undone — the appointment will be linked to the job permanently.
-              </p>
-              <div className="ms-appointments-confirm-modal__actions">
-                <button
-                  type="button"
-                  className="ms-appointments-confirm-modal__cancel"
-                  onClick={() => setPendingEscalateId(null)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="ms-appointments-confirm-modal__confirm"
-                  onClick={confirmEscalate}
-                >
-                  Create Job
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })() : null}
 
       {activeAppointment ? (
         <AppointmentModal

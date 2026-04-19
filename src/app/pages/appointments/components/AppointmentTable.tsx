@@ -1,5 +1,5 @@
 import "./AppointmentTable.css";
-import { ArrowRightCircle, BriefcaseBusiness, Lock, Trash2, Unlock } from "lucide-react";
+import { ArrowRightCircle, Lock, Trash2, Unlock } from "lucide-react";
 import type { AppointmentRecord } from "../appointmentTypes";
 
 type Props = {
@@ -11,7 +11,6 @@ type Props = {
   onProgress: (appointmentId: string) => void;
   onLock: (appointmentId: string) => void;
   onUnlock: (appointmentId: string) => void;
-  onEscalate: (appointmentId: string) => void;
   onDelete?: (appointmentId: string) => void;
 };
 
@@ -28,7 +27,6 @@ export default function AppointmentTable({
   onProgress,
   onLock,
   onUnlock,
-  onEscalate,
   onDelete,
 }: Props) {
   return (
@@ -126,27 +124,6 @@ export default function AppointmentTable({
                         aria-label="Lock appointment"
                       >
                         <Lock size={16} />
-                      </button>
-                    )}
-
-                    {appointment.escalatedToJobId ? (
-                      <span
-                        className="ms-appointments-table__escalated-badge"
-                        title={`Job ${appointment.escalatedToJobId} created`}
-                      >
-                        <BriefcaseBusiness size={14} />
-                        <span>{appointment.escalatedToJobId}</span>
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        className="ms-appointments-table__icon-button ms-appointments-table__icon-button--escalate"
-                        onClick={() => onEscalate(appointment.id)}
-                        disabled={!canEdit}
-                        title="Escalate to Job"
-                        aria-label="Escalate to Job"
-                      >
-                        <BriefcaseBusiness size={16} />
                       </button>
                     )}
 

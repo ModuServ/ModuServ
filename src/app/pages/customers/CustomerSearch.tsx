@@ -52,29 +52,72 @@ export default function CustomerSearch() {
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
   const searchRows = useMemo<CustomerSearchRow[]>(() => {
-    return customers.map((customer) => {
-      const linked = appointments.filter((a) => a.customerId === customer.id);
-      const linkedJobs = jobs.filter((j) => j.customerId === customer.id && !j.isDeleted);
+    const realCustomerIds = new Set(customers.map((c) => c.id));
 
+    // Build rows for real customer records (link by ID or name fallback)
+    const realRows: CustomerSearchRow[] = customers.map((customer) => {
+      const linked = appointments.filter(
+        (a) => a.customerId === customer.id || a.customer === customer.fullName
+      );
+      const linkedJobs = jobs.filter((j) => j.customerId === customer.id && !j.isDeleted);
       const history = buildServiceHistory(linked, linkedJobs);
       const latest = history[0] ?? null;
-
       const latestDevice =
         latest?.kind === "appointment"
           ? (latest.record.deviceInfo?.deviceModel || latest.record.deviceModel || latest.record.device || "—")
           : latest?.kind === "job"
           ? `${latest.record.brand} ${latest.record.deviceModel}`.trim() || "—"
           : "No history";
-
       const latestStatus =
-        latest?.kind === "appointment"
-          ? latest.record.status
-          : latest?.kind === "job"
-          ? latest.record.status
+        latest?.kind === "appointment" ? latest.record.status
+          : latest?.kind === "job" ? latest.record.status
           : "—";
-
       return { customer, appointments: linked, jobs: linkedJobs, latestEntry: latest, latestDevice, latestStatus };
     });
+
+    // Derive virtual customers from appointments not linked to any real customer record
+    const unlinked = appointments.filter(
+      (a) => !a.customerId || !realCustomerIds.has(a.customerId)
+    );
+
+    const virtualMap = new Map<string, AppointmentRecord[]>();
+    for (const apt of unlinked) {
+      const key = apt.customer?.trim().toLowerCase();
+      if (!key) continue;
+      const group = virtualMap.get(key) ?? [];
+      group.push(apt);
+      virtualMap.set(key, group);
+    }
+
+    const virtualRows: CustomerSearchRow[] = [];
+    for (const apts of virtualMap.values()) {
+      const first = apts[0];
+      const info = first.customerInfo;
+      const nameParts = (first.customer || "").trim().split(" ");
+      const virtualCustomer: CustomerRecord = {
+        id: first.customerId || `apt-cus-${first.id}`,
+        firstName: info?.firstName || nameParts[0] || first.customer,
+        lastName: info?.lastName || nameParts.slice(1).join(" ") || "",
+        fullName: first.customer || `${info?.firstName ?? ""} ${info?.lastName ?? ""}`.trim(),
+        email: info?.email || "",
+        phoneNumber: info?.phoneNumber || "",
+        addressLine1: info?.addressLine1 || "",
+        addressLine2: info?.addressLine2,
+        county: info?.county || "",
+        postcode: info?.postcode || "",
+        createdAt: first.createdAt || first.date || "",
+        updatedAt: first.updatedAt || first.date || "",
+      };
+      const history = buildServiceHistory(apts, []);
+      const latest = history[0] ?? null;
+      const latestDevice = latest?.kind === "appointment"
+        ? (latest.record.deviceInfo?.deviceModel || latest.record.deviceModel || latest.record.device || "—")
+        : "—";
+      const latestStatus = latest?.kind === "appointment" ? latest.record.status : "—";
+      virtualRows.push({ customer: virtualCustomer, appointments: apts, jobs: [], latestEntry: latest, latestDevice, latestStatus });
+    }
+
+    return [...realRows, ...virtualRows];
   }, [customers, appointments, jobs]);
 
   const filteredRows = useMemo(() => {
