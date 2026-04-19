@@ -63,13 +63,18 @@
 .ms-intake-card__field input,
 .ms-intake-card__field select,
 .ms-intake-card__field textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
   width: 100%;
+  max-width: 100%;
   min-width: 0;
   border: 1px solid #d1d5db;
   border-radius: 12px;
   background: #ffffff;
   color: #111827;
   font-size: 0.95rem;
+  font-family: inherit;
   padding: 0 14px;
   box-sizing: border-box;
 }
@@ -100,7 +105,7 @@
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 600px) {
   .ms-intake-card {
     padding: 16px;
   }

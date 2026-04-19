@@ -1,6 +1,6 @@
 import "./CalendarDashboard.css";
 import { CalendarDays, Clock3, Lock, Plus, Calendar as CalendarIcon } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppointments } from "../../context/AppointmentContext";
 import { useSite } from "../../../context/SiteContext";
 import PermissionGate from "../../components/auth/PermissionGate";
@@ -137,7 +137,6 @@ export default function CalendarDashboard() {
   const [selectedDayKey, setSelectedDayKey] = useState("");
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<string | null>(null);
   const [modalMode, setModalMode] = useState<"view" | "edit">("view");
-  const dayPickerRef = useRef<HTMLInputElement | null>(null);
 
   const [appointmentForm, setAppointmentForm] = useState({
     customer: "",
@@ -280,16 +279,6 @@ function goPrevious() {
     value: (typeof appointmentForm)[K]
   ) {
     setAppointmentForm((prev) => ({ ...prev, [key]: value }));
-  }
-
-  function openDayPicker() {
-    if (!dayPickerRef.current) return;
-    const input = dayPickerRef.current as HTMLInputElement & { showPicker?(): void };
-    if (input.showPicker) {
-      input.showPicker();
-    } else {
-      input.click();
-    }
   }
 
   function handleDayPicked(value: string) {
@@ -445,19 +434,9 @@ function goPrevious() {
         />
 
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "12px", gap: "8px" }}>
-          <input
-            ref={dayPickerRef}
-            type="date"
-            value={selectedDayKey}
-            onChange={(e) => handleDayPicked(e.target.value)}
-            style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 1, height: 1 }}
-            aria-hidden="true"
-            tabIndex={-1}
-          />
-          <button
-            type="button"
-            onClick={openDayPicker}
+          <label
             style={{
+              position: "relative",
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
@@ -467,11 +446,27 @@ function goPrevious() {
               background: "#fff",
               cursor: "pointer",
               fontWeight: 600,
+              fontSize: "14px",
+              color: "#374151",
+              userSelect: "none",
             }}
           >
             <CalendarIcon size={16} />
             <span>Calendar</span>
-          </button>
+            <input
+              type="date"
+              value={selectedDayKey}
+              onChange={(e) => handleDayPicked(e.target.value)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                opacity: 0,
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
+              }}
+            />
+          </label>
         </div>
 
         {view === "daily" ? (
