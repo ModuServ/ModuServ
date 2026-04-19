@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("moduserv:users", JSON.stringify(users));
   }, [users]);
 
-  // Background sync — pull users from backend after login
+  // Sync users from backend after login; poll every 30s so user changes propagate
   useEffect(() => {
     if (!user) return;
     async function syncUsers() {
@@ -123,10 +123,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const remote = await res.json() as Array<{ id: string; username: string; role: string; status: string; createdAt: string }>;
         setUsers((prev) =>
           remote.map((ru) => {
-            // Match by ID first, fall back to username — guards against ID format drift
             const local = prev.find((u) => u.id === ru.id)
               ?? prev.find((u) => u.username === ru.username);
-            // Preserve local password hash and avatar — backend doesn't expose them
             return {
               id: ru.id,
               username: ru.username,
@@ -141,7 +139,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch { /* backend offline */ }
     }
     syncUsers();
+    const poll = setInterval(syncUsers, 2_000);
   // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearInterval(poll);
   }, [user?.id]);
 
   // Restore session from sessionStorage — clears when browser/tab is closed
@@ -161,7 +161,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    window.dispatchEvent(new CustomEvent("moduserv:ready"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
